@@ -43,7 +43,7 @@
   </a>
 </p> -->
 
-<img alt="Layout" src="https://drive.google.com/uc?export=view&id=12BB-yrILYuykcGsLADIJy-IntuxRZ-Km">
+<img alt="Layout" src="https://res.cloudinary.com/eliasgcf/image/upload/v1596552194/proffy/proffy-mockup_a2owui.png">
 
 ## 📚 About the project
 
