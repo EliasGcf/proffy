@@ -1,0 +1,21 @@
+{
+  "name": "proffy",
+  "version": "1.0.0",
+  "private": true,
+  "repository": "git@github.com:EliasGcf/proffy.git",
+  "author": "Elias Gabriel <eliasgabrielcf@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "server": "yarn workspace @proffy/server",
+    "web": "yarn workspace @proffy/web",
+    "mobile": "yarn workspace @proffy/mobile"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  },
+  "devDependencies": {
+    "typescript": "~3.7.2"
+  }
+}
