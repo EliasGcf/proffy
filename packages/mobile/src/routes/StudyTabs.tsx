@@ -29,12 +29,12 @@ const StudyTabs: React.FC = () => {
         labelStyle: {
           fontFamily: 'Archivo_700Bold',
           fontSize: 13,
-          marginLeft: 16
+          marginLeft: 16,
         },
         inactiveBackgroundColor: '#fafafc',
         activeBackgroundColor: '#ebebf5',
         inactiveTintColor: '#c1bccc',
-        activeTintColor: '#32264d'
+        activeTintColor: '#32264d',
       }}
     >
       <Screen
@@ -42,12 +42,13 @@ const StudyTabs: React.FC = () => {
         component={TeacherList}
         options={{
           tabBarLabel: 'Proffys',
-          tabBarIcon: ({ color, size, focused }) =>
+          tabBarIcon: ({ color, size, focused }) => (
             <Ionicons
               name="ios-easel"
               size={size}
               color={focused ? '#8257e5' : color}
             />
+          ),
         }}
       />
       <Screen
@@ -55,16 +56,17 @@ const StudyTabs: React.FC = () => {
         component={Favorites}
         options={{
           tabBarLabel: 'Favoritos',
-          tabBarIcon: ({ color, size, focused }) =>
+          tabBarIcon: ({ color, size, focused }) => (
             <Ionicons
               name="ios-heart"
               size={size}
               color={focused ? '#8257e5' : color}
             />
+          ),
         }}
       />
     </Navigator>
   );
-}
+};
 
 export default StudyTabs;

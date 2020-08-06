@@ -15,7 +15,7 @@ const TeacherList: React.FC = () => {
   const [week_day, setWeek_day] = useState('');
   const [time, setTime] = useState('');
 
-  async function searchTeachers(e: FormEvent) {
+  async function searchTeachers(e: FormEvent): Promise<void> {
     e.preventDefault();
 
     const response = await api.get('classes', {
@@ -23,7 +23,7 @@ const TeacherList: React.FC = () => {
         subject,
         week_day,
         time,
-      }
+      },
     });
 
     setTeachers(response.data);
@@ -33,7 +33,7 @@ const TeacherList: React.FC = () => {
     <div id="page-teacher-list" className="contaienr">
       <PageHeader title="Estes são os Proffys disponívies.">
         <form onSubmit={searchTeachers} id="search-teachers">
-        <Select
+          <Select
             name="subject"
             label="Matéria"
             value={subject}
@@ -46,7 +46,7 @@ const TeacherList: React.FC = () => {
             ]}
           />
 
-        <Select
+          <Select
             name="week-day"
             label="Dia da Semana"
             value={week_day}
@@ -70,9 +70,7 @@ const TeacherList: React.FC = () => {
             onChange={e => setTime(e.target.value)}
           />
 
-          <button type="submit">
-            Buscar
-          </button>
+          <button type="submit">Buscar</button>
         </form>
       </PageHeader>
 
@@ -83,6 +81,6 @@ const TeacherList: React.FC = () => {
       </main>
     </div>
   );
-}
+};
 
 export default TeacherList;

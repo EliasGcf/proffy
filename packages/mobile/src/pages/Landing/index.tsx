@@ -2,28 +2,28 @@ import React from 'react';
 import { View, Image, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import landingImg  from '../../assets/images/landing.png';
+import { RectButton } from 'react-native-gesture-handler';
+import landingImg from '../../assets/images/landing.png';
 import studyIcon from '../../assets/images/icons/study.png';
 import giveClassesIcon from '../../assets/images/icons/give-classes.png';
 import heartIcon from '../../assets/images/icons/heart.png';
 
 import styles from './styles';
-import { RectButton } from 'react-native-gesture-handler';
 
 const Landing: React.FC = () => {
   const { navigate } = useNavigation();
 
-  function handleNavigateToGiveClassesPage() {
+  function handleNavigateToGiveClassesPage(): void {
     navigate('GiveClasses');
   }
 
-  function handleNavigateToStudyPages() {
+  function handleNavigateToStudyPages(): void {
     navigate('Study');
   }
 
   return (
     <View style={styles.container}>
-      <Image source={landingImg}  style={styles.banner} />
+      <Image source={landingImg} style={styles.banner} />
 
       <Text style={styles.title}>
         Seja bem-vindo,{'\n'}
@@ -37,9 +37,7 @@ const Landing: React.FC = () => {
         >
           <Image source={studyIcon} />
 
-          <Text style={styles.buttonText}>
-            Estudar
-          </Text>
+          <Text style={styles.buttonText}>Estudar</Text>
         </RectButton>
 
         <RectButton
@@ -48,18 +46,15 @@ const Landing: React.FC = () => {
         >
           <Image source={giveClassesIcon} />
 
-          <Text style={styles.buttonText}>
-            Dar aulas
-          </Text>
+          <Text style={styles.buttonText}>Dar aulas</Text>
         </RectButton>
       </View>
 
       <Text style={styles.totalConnections}>
-        Total de 294 conexões já realizadas. {' '}
-        <Image source={heartIcon} />
+        Total de 294 conexões já realizadas. <Image source={heartIcon} />
       </Text>
     </View>
   );
-}
+};
 
 export default Landing;

@@ -14,6 +14,6 @@ const TextArea: React.FC<TextAreaProps> = ({ label, name, ...rest }) => {
       <textarea id={name} {...rest} />
     </div>
   );
-}
+};
 
 export default TextArea;

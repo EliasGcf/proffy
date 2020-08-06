@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 
 import PageHeader from '../../components/PageHeader';
 
@@ -11,6 +11,6 @@ const TeacherList: React.FC = () => {
       <PageHeader title="Proffys disponíveis" />
     </View>
   );
-}
+};
 
 export default TeacherList;

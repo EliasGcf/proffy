@@ -3,14 +3,14 @@ import { Request, Response } from 'express';
 import db from '../database/connection';
 import { convertHoursToMinutes } from '../utils/convertHourtToMinuts';
 
-interface ScheduleItem {
+interface IScheduleItem {
   week_day: number;
   from: string;
   to: string;
 }
 
 export class ClassesController {
-  async index(req: Request, res: Response) {
+  async index(req: Request, res: Response): Promise<Response> {
     const filters = req.query;
 
     const subject = filters.subject as string;
@@ -19,20 +19,20 @@ export class ClassesController {
 
     if (!filters.week_day || !filters.subject || !filters.time) {
       return res.status(400).json({
-        error: 'Missing filters to search classes'
+        error: 'Missing filters to search classes',
       });
     }
 
     const timeInMinutes = convertHoursToMinutes(time);
 
     const classes = await db('classes')
-      .whereExists(function() {
+      .whereExists(function () {
         this.select('class_schedule.*')
           .from('class_schedule')
           .whereRaw('`class_schedule`.`class_id` = `classes`.`id`')
           .whereRaw('`class_schedule`.`week_day` = ??', [Number(week_day)])
           .whereRaw('`class_schedule`.`from` <= ??', [timeInMinutes])
-          .whereRaw('`class_schedule`.`to` > ??', [timeInMinutes])
+          .whereRaw('`class_schedule`.`to` > ??', [timeInMinutes]);
       })
       .where('classes.subject', '=', subject)
       .join('users', 'classes.user_id', '=', 'users.id')
@@ -41,16 +41,8 @@ export class ClassesController {
     return res.json(classes);
   }
 
-  async create(req: Request, res: Response) {
-    const {
-      name,
-      avatar,
-      whatsapp,
-      bio,
-      subject,
-      cost,
-      schedule,
-    } = req.body;
+  async create(req: Request, res: Response): Promise<Response> {
+    const { name, avatar, whatsapp, bio, subject, cost, schedule } = req.body;
 
     const trx = await db.transaction();
 
@@ -72,7 +64,7 @@ export class ClassesController {
 
       const class_id = insertedClassesIds[0];
 
-      const classSchedule = schedule.map((scheduleItem: ScheduleItem) => {
+      const classSchedule = schedule.map((scheduleItem: IScheduleItem) => {
         return {
           class_id,
           week_day: scheduleItem.week_day,
@@ -90,7 +82,7 @@ export class ClassesController {
       await trx.rollback();
 
       return res.status(400).json({
-        message: 'Unexpected error while createing new class'
+        message: 'Unexpected error while createing new class',
       });
     }
   }

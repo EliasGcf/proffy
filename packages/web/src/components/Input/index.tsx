@@ -14,6 +14,6 @@ const Input: React.FC<InputProps> = ({ label, name, ...rest }) => {
       <input type="text" id={name} {...rest} />
     </div>
   );
-}
+};
 
 export default Input;

@@ -22,21 +22,23 @@ const TeacherForm: React.FC = () => {
   const [cost, setCost] = useState('');
 
   const [scheduleItems, setScheduleItems] = useState([
-    { week_day: 0, from: '', to: ''},
+    { week_day: 0, from: '', to: '' },
   ]);
 
-  function addNewScheduleItem() {
-    setScheduleItems([...scheduleItems,
-      { week_day: 0, from: '', to: '' }
-    ]);
+  function addNewScheduleItem(): void {
+    setScheduleItems([...scheduleItems, { week_day: 0, from: '', to: '' }]);
   }
 
-  function setScheduleItemValue(position: number, field: string, value: string) {
+  function setScheduleItemValue(
+    position: number,
+    field: string,
+    value: string,
+  ): void {
     const updatedScheduleItems = scheduleItems.map((scheduleItem, index) => {
       if (index === position) {
         return {
           ...scheduleItem,
-          [field]: value
+          [field]: value,
         };
       }
 
@@ -46,25 +48,28 @@ const TeacherForm: React.FC = () => {
     setScheduleItems(updatedScheduleItems);
   }
 
-  function handleCreateClass(e: FormEvent) {
+  function handleCreateClass(e: FormEvent): void {
     e.preventDefault();
 
-    api.post('classes', {
-      name,
-      avatar,
-      whatsapp,
-      bio,
-      subject,
-      cost: Number(cost),
-      schedule: scheduleItems,
-    }).then(() => {
-      alert('Cadastro realizado com sucesso!');
+    api
+      .post('classes', {
+        name,
+        avatar,
+        whatsapp,
+        bio,
+        subject,
+        cost: Number(cost),
+        schedule: scheduleItems,
+      })
+      .then(() => {
+        alert('Cadastro realizado com sucesso!');
 
-      history.push('/');
-    }).catch((err) => {
-      alert('Ocorreu um erro!');
-      console.log(err);
-    });
+        history.push('/');
+      })
+      .catch(err => {
+        alert('Ocorreu um erro!');
+        console.log(err);
+      });
   }
 
   return (
@@ -146,7 +151,9 @@ const TeacherForm: React.FC = () => {
                   name="week-day"
                   label="Dia da Semana"
                   value={scheduleItem.week_day}
-                  onChange={e => setScheduleItemValue(index, 'week_day', e.target.value)}
+                  onChange={e => {
+                    setScheduleItemValue(index, 'week_day', e.target.value);
+                  }}
                   options={[
                     { value: '0', label: 'Domingo' },
                     { value: '1', label: 'Segunda-Feira' },
@@ -163,7 +170,9 @@ const TeacherForm: React.FC = () => {
                   label="Das"
                   type="time"
                   value={scheduleItem.from}
-                  onChange={e => setScheduleItemValue(index, 'from', e.target.value)}
+                  onChange={e => {
+                    setScheduleItemValue(index, 'from', e.target.value);
+                  }}
                 />
 
                 <Input
@@ -171,27 +180,27 @@ const TeacherForm: React.FC = () => {
                   label="Até"
                   type="time"
                   value={scheduleItem.to}
-                  onChange={e => setScheduleItemValue(index, 'to', e.target.value)}
+                  onChange={e => {
+                    setScheduleItemValue(index, 'to', e.target.value);
+                  }}
                 />
               </div>
             ))}
-
           </fieldset>
 
           <footer>
             <p>
-              <img src={warningIcon} alt="Aviso importante"/>
-              Important!<br />
+              <img src={warningIcon} alt="Aviso importante" />
+              Important!
+              <br />
               Preencha todos os dados
             </p>
-            <button type="submit">
-              Salvar cadastro
-            </button>
+            <button type="submit">Salvar cadastro</button>
           </footer>
         </form>
       </main>
     </div>
   );
-}
+};
 
 export default TeacherForm;

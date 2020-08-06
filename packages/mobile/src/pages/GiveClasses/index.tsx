@@ -10,7 +10,7 @@ import styles from './styles';
 const GiveClasses: React.FC = () => {
   const { goBack } = useNavigation();
 
-  function handleNavigateBack() {
+  function handleNavigateBack(): void {
     goBack();
   }
 
@@ -21,23 +21,19 @@ const GiveClasses: React.FC = () => {
         source={giveClassesBgImg}
         style={styles.content}
       >
-        <Text style={styles.title}>
-          Quer ser um Proffy?
-        </Text>
+        <Text style={styles.title}>Quer ser um Proffy?</Text>
 
         <Text style={styles.description}>
-          Para comerçar, você precisa se cadastrar como professor na nossa plataforma web.
+          Para comerçar, você precisa se cadastrar como professor na nossa
+          plataforma web.
         </Text>
       </ImageBackground>
 
-      <RectButton
-        onPress={handleNavigateBack}
-        style={styles.okButton}
-       >
+      <RectButton onPress={handleNavigateBack} style={styles.okButton}>
         <Text style={styles.okButtonText}>Tudo bem</Text>
       </RectButton>
     </View>
   );
-}
+};
 
 export default GiveClasses;
