@@ -34,14 +34,11 @@
   <a href="#-license">License</a>
 </p>
 
-<!-- <p id="insomniaButton" align="center">
-  <a
-    href="https://insomnia.rest/run/?label=Ecoleta%20API%20-%20EliasGcf&uri=https%3A%2F%2Fraw.githubusercontent.com%2FEliasGcf%2Fecoleta%2Fmaster%2FInsomnia.json"
-    target="_blank"
-  >
-    <img src="https://insomnia.rest/images/run.svg" alt="Run in Insomnia">
+<p id="insomniaButton" align="center">
+  <a href="https://insomnia.rest/run/?label=Proffy%20API%20-%20EliasGcf&uri=https%3A%2F%2Fraw.githubusercontent.com%2FEliasGcf%2Fproffy%2Fmaster%2FInsomnia.json" target="_blank">
+  <img src="https://insomnia.rest/images/run.svg" alt="Run in Insomnia">
   </a>
-</p> -->
+</p>
 
 <img alt="Layout" src="https://res.cloudinary.com/eliasgcf/image/upload/v1596552194/proffy/proffy-mockup_a2owui.png">
 
@@ -83,22 +80,22 @@ Import the `Insomnia.json` on Insomnia App or click on [Run in Insomnia](#insomn
 $ git clone https://github.com/EliasGcf/proffy.git && cd proffy
 ```
 
+**Install dependencies**
+
+```bash
+$ yarn
+```
+
 **Follow the steps below**
 
 ### Backend
 
 ```bash
-# Starting from the project root folder, go to server folder
-$ cd server
-
-# Install the dependencies
-$ yarn
-
 # Use the script to run the migrations
-$ yarn knex:migrate
+$ yarn server knex:migrate
 
 # To finish, run the api service
-$ yarn dev
+$ yarn server dev
 
 # Well done, project is started!
 ```
@@ -108,39 +105,24 @@ $ yarn dev
 _Obs.: Before to continue, be sure to have the API running_
 
 ```bash
-# Starting from the project root folder, go to frontend web folder
-$ cd web
-
-# Install the dependencies
-$ yarn
-
-# Be sure the file 'src/services/api.ts' have the IP to your API
+# Be sure the file 'packages/web/src/services/api.ts'
+# have the IP to your API
 
 # Start the client
-$ yarn start
+$ yarn web start
 ```
 
 ### Mobile
 
-<!-- _Obs.: Before to continue, be sure to have the API running_
+_Obs.: Before to continue, be sure to have the API running_
 
 ```bash
-# Starting from the project root folder, go to mobile folder
-$ cd mobile
-
-# Install the dependencies
-$ yarn
-
-# Be sure the file 'src/services/api.ts' have the IP to your API
+# Be sure the file 'packages/mobile/src/services/api.ts'
+# have the IP to your API
 
 # Start the expo service and scan the QR code with Expo Client
-$ yarn start
-``` -->
-
-<p align="center">
-  Under development<br />
-  <img src="https://i.pinimg.com/originals/ae/51/e1/ae51e1395e87cc72c6021df5445cc5f8.gif" alt="Loading" align="center" height="300">
-</p>
+$ yarn mobile start
+```
 
 ## 🤔 How to contribute
 
