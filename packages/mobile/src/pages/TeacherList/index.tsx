@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { View, Text, ScrollView, TextInput } from 'react-native';
 import { BorderlessButton, RectButton } from 'react-native-gesture-handler';
 import { Feather } from '@expo/vector-icons';
@@ -21,28 +21,28 @@ const TeacherList: React.FC = () => {
   const [week_day, setWeek_day] = useState('');
   const [time, setTime] = useState('');
 
-  function loadFavorites(): void {
-    AsyncStorage.getItem('@Proffy:favorites').then(response => {
-      if (response) {
-        const favoritedTeachers = JSON.parse(response);
-        const favoritedTeachersIds = favoritedTeachers.map(
-          (teacher: Teacher) => teacher.id,
-        );
+  const loadFavorites = useCallback(async () => {
+    const response = await AsyncStorage.getItem('@Proffy:favorites');
 
-        setFavorites(favoritedTeachersIds);
-      }
-    });
-  }
+    if (response) {
+      const favoritedTeachers = JSON.parse(response);
+      const favoritedTeachersIds = favoritedTeachers.map(
+        (teacher: Teacher) => teacher.id,
+      );
+
+      setFavorites(favoritedTeachersIds);
+    }
+  }, []);
 
   useFocusEffect(() => {
     loadFavorites();
   });
 
-  function handleToggleFiltersVisible(): void {
-    setIsFiltersVisible(!isFiltersVisible);
-  }
+  const handleToggleFiltersVisible = useCallback(() => {
+    setIsFiltersVisible(state => !state);
+  }, []);
 
-  async function handleFiltersSubmit(): Promise<void> {
+  const handleFiltersSubmit = useCallback(async () => {
     loadFavorites();
 
     const response = await api.get('classes', {
@@ -55,7 +55,7 @@ const TeacherList: React.FC = () => {
 
     setTeachers(response.data);
     setIsFiltersVisible(false);
-  }
+  }, [loadFavorites, subject, week_day, time]);
 
   return (
     <View style={styles.container}>

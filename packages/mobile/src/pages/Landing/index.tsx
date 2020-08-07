@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, Image, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { RectButton } from 'react-native-gesture-handler';
@@ -21,13 +21,13 @@ const Landing: React.FC = () => {
     });
   }, []);
 
-  function handleNavigateToGiveClassesPage(): void {
+  const handleNavigateToGiveClassesPage = useCallback(() => {
     navigate('GiveClasses');
-  }
+  }, [navigate]);
 
-  function handleNavigateToStudyPages(): void {
+  const handleNavigateToStudyPages = useCallback(() => {
     navigate('Study');
-  }
+  }, [navigate]);
 
   return (
     <View style={styles.container}>

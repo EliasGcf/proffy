@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Text, View, Image, Linking } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -29,13 +29,13 @@ interface TeacherItemProps {
 const TeacherItem: React.FC<TeacherItemProps> = ({ teacher, favorited }) => {
   const [isFavorited, setIsFavorited] = useState(favorited);
 
-  function handleLinkToWhatsapp(): void {
+  const handleLinkToWhatsapp = useCallback(() => {
     api.post('connections', { user_id: teacher.id });
 
     Linking.openURL(`whatsapp://send?phone=+55${teacher.whatsapp}`);
-  }
+  }, [teacher.id, teacher.whatsapp]);
 
-  async function handleToggleFavorite(): Promise<void> {
+  const handleToggleFavorite = useCallback(async () => {
     const favorites = await AsyncStorage.getItem('@Proffy:favorites');
 
     let favoritesArray = [];
@@ -61,7 +61,7 @@ const TeacherItem: React.FC<TeacherItemProps> = ({ teacher, favorited }) => {
       '@Proffy:favorites',
       JSON.stringify(favoritesArray),
     );
-  }
+  }, [isFavorited, teacher]);
 
   return (
     <View style={styles.container}>

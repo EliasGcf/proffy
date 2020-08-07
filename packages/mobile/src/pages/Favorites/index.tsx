@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { View } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
@@ -12,15 +12,14 @@ import styles from './styles';
 const Favorites: React.FC = () => {
   const [favorites, setFavorites] = useState([]);
 
-  function loadFavorites(): void {
-    AsyncStorage.getItem('@Proffy:favorites').then(response => {
-      if (response) {
-        const favoritedTeachers = JSON.parse(response);
+  const loadFavorites = useCallback(async () => {
+    const response = await AsyncStorage.getItem('@Proffy:favorites');
 
-        setFavorites(favoritedTeachers);
-      }
-    });
-  }
+    if (response) {
+      const favoritedTeachers = JSON.parse(response);
+      setFavorites(favoritedTeachers);
+    }
+  }, []);
 
   useFocusEffect(() => {
     loadFavorites();

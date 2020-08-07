@@ -1,4 +1,4 @@
-import React, { useState, FormEvent } from 'react';
+import React, { useState, FormEvent, useCallback } from 'react';
 import api from '../../services/api';
 
 import PageHeader from '../../components/PageHeader';
@@ -15,19 +15,22 @@ const TeacherList: React.FC = () => {
   const [week_day, setWeek_day] = useState('');
   const [time, setTime] = useState('');
 
-  async function searchTeachers(e: FormEvent): Promise<void> {
-    e.preventDefault();
+  const searchTeachers = useCallback(
+    async (e: FormEvent) => {
+      e.preventDefault();
 
-    const response = await api.get('classes', {
-      params: {
-        subject,
-        week_day,
-        time,
-      },
-    });
+      const response = await api.get('classes', {
+        params: {
+          subject,
+          week_day,
+          time,
+        },
+      });
 
-    setTeachers(response.data);
-  }
+      setTeachers(response.data);
+    },
+    [subject, time, week_day],
+  );
 
   return (
     <div id="page-teacher-list" className="contaienr">

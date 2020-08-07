@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useCallback } from 'react';
 import { Text, View, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
@@ -20,9 +20,9 @@ const PageHeader: React.FC<PageHeaderProps> = ({
 }) => {
   const { navigate } = useNavigation();
 
-  function handleGoBack(): void {
+  const handleGoBack = useCallback(() => {
     navigate('Landing');
-  }
+  }, [navigate]);
 
   return (
     <View style={styles.container}>

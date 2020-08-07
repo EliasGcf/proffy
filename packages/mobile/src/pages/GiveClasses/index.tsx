@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { View, ImageBackground, Text } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
@@ -10,9 +10,9 @@ import styles from './styles';
 const GiveClasses: React.FC = () => {
   const { goBack } = useNavigation();
 
-  function handleNavigateBack(): void {
+  const handleNavigateBack = useCallback(() => {
     goBack();
-  }
+  }, [goBack]);
 
   return (
     <View style={styles.container}>

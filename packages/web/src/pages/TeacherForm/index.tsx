@@ -1,4 +1,5 @@
-import React, { useState, FormEvent } from 'react';
+/* eslint-disable no-alert */
+import React, { useState, FormEvent, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import PageHeader from '../../components/PageHeader';
@@ -25,52 +26,51 @@ const TeacherForm: React.FC = () => {
     { week_day: 0, from: '', to: '' },
   ]);
 
-  function addNewScheduleItem(): void {
-    setScheduleItems([...scheduleItems, { week_day: 0, from: '', to: '' }]);
-  }
+  const addNewScheduleItem = useCallback(() => {
+    setScheduleItems(state => [...state, { week_day: 0, from: '', to: '' }]);
+  }, []);
 
-  function setScheduleItemValue(
-    position: number,
-    field: string,
-    value: string,
-  ): void {
-    const updatedScheduleItems = scheduleItems.map((scheduleItem, index) => {
-      if (index === position) {
-        return {
-          ...scheduleItem,
-          [field]: value,
-        };
-      }
+  const setScheduleItemValue = useCallback(
+    (position: number, field: string, value: string) => {
+      setScheduleItems(state =>
+        state.map((scheduleItem, index) => {
+          if (index === position) {
+            return {
+              ...scheduleItem,
+              [field]: value,
+            };
+          }
 
-      return scheduleItem;
-    });
+          return scheduleItem;
+        }),
+      );
+    },
+    [],
+  );
 
-    setScheduleItems(updatedScheduleItems);
-  }
+  const handleCreateClass = useCallback(
+    async (e: FormEvent) => {
+      e.preventDefault();
 
-  function handleCreateClass(e: FormEvent): void {
-    e.preventDefault();
+      try {
+        await api.post('classes', {
+          name,
+          avatar,
+          whatsapp,
+          bio,
+          subject,
+          cost: Number(cost),
+          schedule: scheduleItems,
+        });
 
-    api
-      .post('classes', {
-        name,
-        avatar,
-        whatsapp,
-        bio,
-        subject,
-        cost: Number(cost),
-        schedule: scheduleItems,
-      })
-      .then(() => {
         alert('Cadastro realizado com sucesso!');
-
         history.push('/');
-      })
-      .catch(err => {
+      } catch (err) {
         alert('Ocorreu um erro!');
-        console.log(err);
-      });
-  }
+      }
+    },
+    [name, avatar, bio, whatsapp, subject, cost, scheduleItems, history],
+  );
 
   return (
     <div id="page-teacher-form" className="contaienr">
