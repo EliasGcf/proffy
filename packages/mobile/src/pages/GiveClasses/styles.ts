@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#8257e5',
     justifyContent: 'center',
-    padding: 40
+    padding: 40,
   },
 
   content: {
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 32,
     lineHeight: 37,
-    maxWidth: 180
+    maxWidth: 180,
   },
 
   description: {
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 26,
     fontFamily: 'Poppins_400Regular',
-    maxWidth: 240
+    maxWidth: 240,
   },
 
   okButton: {
@@ -42,8 +42,8 @@ const styles = StyleSheet.create({
   okButtonText: {
     color: '#fff',
     fontSize: 16,
-    fontFamily: 'Archivo_700Bold'
-  }
+    fontFamily: 'Archivo_700Bold',
+  },
 });
 
 export default styles;

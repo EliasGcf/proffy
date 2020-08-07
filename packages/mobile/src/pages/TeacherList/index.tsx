@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text, ScrollView, TextInput } from 'react-native';
 import { BorderlessButton, RectButton } from 'react-native-gesture-handler';
 import { Feather } from '@expo/vector-icons';
@@ -21,11 +21,13 @@ const TeacherList: React.FC = () => {
   const [week_day, setWeek_day] = useState('');
   const [time, setTime] = useState('');
 
-  function loadFavorites() {
+  function loadFavorites(): void {
     AsyncStorage.getItem('@Proffy:favorites').then(response => {
       if (response) {
         const favoritedTeachers = JSON.parse(response);
-        const favoritedTeachersIds = favoritedTeachers.map((teacher: Teacher) => teacher.id);
+        const favoritedTeachersIds = favoritedTeachers.map(
+          (teacher: Teacher) => teacher.id,
+        );
 
         setFavorites(favoritedTeachersIds);
       }
@@ -36,11 +38,11 @@ const TeacherList: React.FC = () => {
     loadFavorites();
   });
 
-  function handleToggleFiltersVisible() {
+  function handleToggleFiltersVisible(): void {
     setIsFiltersVisible(!isFiltersVisible);
   }
 
-  async function handleFiltersSubmit() {
+  async function handleFiltersSubmit(): Promise<void> {
     loadFavorites();
 
     const response = await api.get('classes', {
@@ -48,7 +50,7 @@ const TeacherList: React.FC = () => {
         subject,
         week_day,
         time,
-      }
+      },
     });
 
     setTeachers(response.data);
@@ -59,9 +61,9 @@ const TeacherList: React.FC = () => {
     <View style={styles.container}>
       <PageHeader
         title="Proffys disponíveis"
-        headerRight={(
+        headerRight={() => (
           <BorderlessButton onPress={handleToggleFiltersVisible}>
-            <Feather name="filter" size={20} color="#fff"/>
+            <Feather name="filter" size={20} color="#fff" />
           </BorderlessButton>
         )}
       >
@@ -100,10 +102,11 @@ const TeacherList: React.FC = () => {
               </View>
             </View>
 
-            <RectButton onPress={handleFiltersSubmit} style={styles.submitButton}>
-              <Text style={styles.submitButtonText}>
-                Filtrar
-              </Text>
+            <RectButton
+              onPress={handleFiltersSubmit}
+              style={styles.submitButton}
+            >
+              <Text style={styles.submitButtonText}>Filtrar</Text>
             </RectButton>
           </View>
         )}
@@ -126,6 +129,6 @@ const TeacherList: React.FC = () => {
       </ScrollView>
     </View>
   );
-}
+};
 
 export default TeacherList;

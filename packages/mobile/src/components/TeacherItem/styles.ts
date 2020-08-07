@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
     borderColor: '#e6e6f0',
     borderRadius: 8,
     marginBottom: 16,
-    overflow: 'hidden'
+    overflow: 'hidden',
   },
 
   profile: {
@@ -20,24 +20,24 @@ const styles = StyleSheet.create({
     width: 64,
     height: 64,
     borderRadius: 32,
-    backgroundColor: '#eee'
+    backgroundColor: '#eee',
   },
 
   profileInfo: {
-    marginLeft: 16
+    marginLeft: 16,
   },
 
   name: {
     fontFamily: 'Archivo_700Bold',
     color: '#32264d',
-    fontSize: 20
+    fontSize: 20,
   },
 
   subject: {
     fontFamily: 'Poppins_400Regular',
     color: '#6a6180',
     fontSize: 14,
-    marginTop: 4
+    marginTop: 4,
   },
 
   bio: {
@@ -45,10 +45,10 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins_400Regular',
     fontSize: 14,
     lineHeight: 24,
-    color: '#6a6180'
+    color: '#6a6180',
   },
 
-  footer : {
+  footer: {
     backgroundColor: '#fafafc',
     padding: 24,
     alignItems: 'center',
@@ -79,11 +79,11 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 8
+    marginRight: 8,
   },
 
   favorited: {
-    backgroundColor: '#e33d3d'
+    backgroundColor: '#e33d3d',
   },
 
   contactButton: {
@@ -94,14 +94,14 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 8
+    marginRight: 8,
   },
 
   contactButtonText: {
     color: '#fff',
     fontFamily: 'Archivo_700Bold',
     fontSize: 16,
-    marginLeft: 16
+    marginLeft: 16,
   },
 });
 
