@@ -7,21 +7,13 @@
 </h3>
 
 <p align="center">
-  <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/EliasGcf/proffy?color=%239871F5">
-
   <a href="https://www.linkedin.com/in/eliasgcf/">
-    <img alt="Made by" src="https://img.shields.io/badge/made%20by-elias%20gabriel-%239871F5">
-  </a>
+    <img alt="Made by" src="https://img.shields.io/badge/made%20by-Elias%20Gabriel-%239871F5"></a>
 
   <img alt="Repository size" src="https://img.shields.io/github/repo-size/EliasGcf/proffy?color=%239871F5">
 
   <a href="https://github.com/EliasGcf/proffy/commits/master">
-    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/EliasGcf/proffy?color=%239871F5">
-  </a>
-
-  <a href="https://github.com/EliasGcf/proffy/issues">
-    <img alt="Repository issues" src="https://img.shields.io/github/issues/EliasGcf/proffy?color=%239871F5">
-  </a>
+    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/EliasGcf/proffy?color=%239871F5"></a>
 
   <img alt="GitHub" src="https://img.shields.io/github/license/EliasGcf/proffy?color=%239871F5">
 </p>
@@ -61,8 +53,7 @@ Technologies that I used to develop this application
 - [Knex](http://knexjs.org/)
 - [SQLite](https://www.sqlite.org/)
 - [React Router DOM](https://reacttraining.com/react-router/)
-<!-- - [React Navigation](https://reactnavigation.org/) -->
-<!-- - [React Icons](https://react-icons.netlify.com/#/) -->
+- [React Navigation](https://reactnavigation.org/)
 
 ## 💻 Getting started
 
@@ -71,7 +62,7 @@ Import the `Insomnia.json` on Insomnia App or click on [Run in Insomnia](#insomn
 ### Requirements
 
 - [Node.js](https://nodejs.org/en/)
-- [Yarn](https://classic.yarnpkg.com/) or [npm](https://www.npmjs.com/)
+- [Yarn](https://classic.yarnpkg.com/)
 - [Expo](https://expo.io/)
 
 **Clone the project and access the folder**
