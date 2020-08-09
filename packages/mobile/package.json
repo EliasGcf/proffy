@@ -7,7 +7,6 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject",
     "postinstall": "expo-yarn-workspaces postinstall"
   },
   "dependencies": {
@@ -23,7 +22,6 @@
     "expo-font": "~8.2.1",
     "expo-status-bar": "^1.0.2",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-38.0.2.tar.gz",
     "react-native-gesture-handler": "~1.6.0",
     "react-native-picker-select": "^8.0.0",
@@ -33,11 +31,11 @@
     "react-native-web": "~0.11.7"
   },
   "devDependencies": {
-    "@babel/core": "^7.8.6",
+    "@babel/core": "7.9.0",
     "@types/react": "^16.9.0",
     "@types/react-native": "~0.62.13",
     "expo-yarn-workspaces": "^1.2.1",
-    "metro-config": "^0.60.0"
+    "metro-config": "^0.58.0"
   },
   "private": true
 }
