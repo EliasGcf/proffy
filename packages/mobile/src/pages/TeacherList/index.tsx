@@ -31,7 +31,7 @@ const TeacherList: React.FC = () => {
       { value: '3', label: 'Quarta-Feira' },
       { value: '4', label: 'Quinta-Feira' },
       { value: '5', label: 'Sexta-Feira' },
-      { value: '6', label: 'Sabado' },
+      { value: '6', label: 'Sábado' },
     ];
   }, []);
 
@@ -73,7 +73,10 @@ const TeacherList: React.FC = () => {
 
   const RenderRightIcon = useCallback(() => {
     return (
-      <BorderlessButton onPress={handleToggleFiltersVisible}>
+      <BorderlessButton
+        style={{ padding: 8 }}
+        onPress={handleToggleFiltersVisible}
+      >
         <Feather name="filter" size={20} color="#fff" />
       </BorderlessButton>
     );

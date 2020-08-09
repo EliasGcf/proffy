@@ -15,11 +15,20 @@ const RNPickerSelect: React.FC<RNPickerSelectProps> = ({ items, ...rest }) => {
       viewContainer: {
         height: 54,
         backgroundColor: '#fff',
+        paddingLeft: 8,
         borderRadius: 8,
         justifyContent: 'center',
-        paddingHorizontal: 16,
         marginTop: 4,
-        marginBottom: 16,
+      },
+      inputIOSContainer: {
+        paddingLeft: 8,
+        height: '100%',
+        justifyContent: 'center',
+      },
+      iconContainer: {
+        height: '100%',
+        justifyContent: 'center',
+        marginRight: 16,
       },
     };
   }, []);
@@ -27,9 +36,17 @@ const RNPickerSelect: React.FC<RNPickerSelectProps> = ({ items, ...rest }) => {
   return (
     <PickerSelect
       items={items}
-      placeholder={{ label: 'Selecione o dia', value: '' }}
+      placeholder={{ label: 'Selecione o dia', value: '', color: '#ccc' }}
       style={style}
-      Icon={() => <Feather name="chevron-down" size={20} color="#000" />}
+      doneText="Selecionar"
+      Icon={() => (
+        <Feather
+          name="chevron-down"
+          size={20}
+          color="#000"
+          style={{ height: 20 }}
+        />
+      )}
       {...rest}
     />
   );
