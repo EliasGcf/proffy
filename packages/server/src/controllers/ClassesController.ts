@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
+import { getRepository } from 'typeorm';
 
-import db from '../database/connection';
 import { convertHoursToMinutes } from '../utils/convertHourtToMinuts';
+import { Class } from '../entities/Class';
 
 interface IScheduleItem {
   week_day: number;
@@ -11,6 +12,7 @@ interface IScheduleItem {
 
 export class ClassesController {
   async index(req: Request, res: Response): Promise<Response> {
+    const classesRepository = getRepository(Class);
     const filters = req.query;
 
     const subject = filters.subject as string;
@@ -25,65 +27,43 @@ export class ClassesController {
 
     const timeInMinutes = convertHoursToMinutes(time);
 
-    const classes = await db('classes')
-      .whereExists(function () {
-        this.select('class_schedule.*')
-          .from('class_schedule')
-          .whereRaw('`class_schedule`.`class_id` = `classes`.`id`')
-          .whereRaw('`class_schedule`.`week_day` = ??', [Number(week_day)])
-          .whereRaw('`class_schedule`.`from` <= ??', [timeInMinutes])
-          .whereRaw('`class_schedule`.`to` > ??', [timeInMinutes]);
-      })
-      .where('classes.subject', '=', subject)
-      .join('users', 'classes.user_id', '=', 'users.id')
-      .select(['classes.*', 'users.*']);
+    const classes = await classesRepository.find({
+      join: {
+        alias: 'classes',
+        innerJoin: { class_schedule: 'classes.class_schedule' },
+      },
+      where: (qb: any) => {
+        qb.where('classes.subject ILIKE :subject', { subject })
+          .andWhere('class_schedule.week_day = :week_day', { week_day })
+          .andWhere('class_schedule.from <= :timeInMinutes', { timeInMinutes })
+          .andWhere('class_schedule.to > :timeInMinutes', { timeInMinutes });
+      },
+    });
 
     return res.json(classes);
   }
 
   async create(req: Request, res: Response): Promise<Response> {
-    const { name, avatar, whatsapp, bio, subject, cost, schedule } = req.body;
+    const { subject, cost, schedule } = req.body;
+    const { user } = req;
 
-    const trx = await db.transaction();
+    const classesRepository = getRepository(Class);
 
-    try {
-      const insertedUsersIds = await trx('users').insert({
-        name,
-        avatar,
-        whatsapp,
-        bio,
-      });
+    const classSchedules = schedule.map((scheduleItem: IScheduleItem) => ({
+      week_day: scheduleItem.week_day,
+      from: convertHoursToMinutes(scheduleItem.from),
+      to: convertHoursToMinutes(scheduleItem.to),
+    }));
 
-      const user_id = insertedUsersIds[0];
+    const newClass = classesRepository.create({
+      user_id: user.id,
+      subject,
+      cost,
+      class_schedule: classSchedules,
+    });
 
-      const insertedClassesIds = await trx('classes').insert({
-        subject,
-        cost,
-        user_id,
-      });
+    await classesRepository.save(newClass);
 
-      const class_id = insertedClassesIds[0];
-
-      const classSchedule = schedule.map((scheduleItem: IScheduleItem) => {
-        return {
-          class_id,
-          week_day: scheduleItem.week_day,
-          from: convertHoursToMinutes(scheduleItem.from),
-          to: convertHoursToMinutes(scheduleItem.to),
-        };
-      });
-
-      await trx('class_schedule').insert(classSchedule);
-
-      await trx.commit();
-
-      return res.status(201).send();
-    } catch (err) {
-      await trx.rollback();
-
-      return res.status(400).json({
-        message: 'Unexpected error while createing new class',
-      });
-    }
+    return res.status(201).json(newClass);
   }
 }

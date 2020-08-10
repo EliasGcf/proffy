@@ -64,6 +64,9 @@ Import the `Insomnia.json` on Insomnia App or click on [Run in Insomnia](#insomn
 - [Node.js](https://nodejs.org/en/)
 - [Yarn](https://classic.yarnpkg.com/)
 - [Expo](https://expo.io/)
+- One instance of [PostgreSQL](https://www.postgresql.org/)
+
+> Obs.: I recommend use docker
 
 **Clone the project and access the folder**
 
@@ -82,6 +85,11 @@ $ yarn
 ### Backend
 
 ```bash
+# Create the instance of postgreSQL using docker
+docker run --name proffy-postgres -e POSTGRES_USER=docker \
+              -e POSTGRES_DB=proffy -e POSTGRES_PASSWORD=docker \
+              -p 5432:5432 -d postgres
+
 # Use the script to run the migrations
 $ yarn server knex:migrate
 

@@ -1,12 +1,14 @@
 import { Request, Response } from 'express';
+import { getRepository } from 'typeorm';
 
-import db from '../database/connection';
+import { Connection } from '../entities/Connection';
 
 export class ConnectionsController {
   async index(req: Request, res: Response): Promise<Response> {
-    const totalConnections = await db('connections').count('* as total');
+    // const totalConnections = await db('connections').count('* as total');
+    const connectionsRepository = getRepository(Connection);
 
-    const { total } = totalConnections[0];
+    const [, total] = await connectionsRepository.findAndCount();
 
     return res.json({ total });
   }
@@ -14,9 +16,11 @@ export class ConnectionsController {
   async create(req: Request, res: Response): Promise<Response> {
     const { user_id } = req.body;
 
-    await db('connections').insert({
-      user_id,
-    });
+    const connectionsRepository = getRepository(Connection);
+
+    const connection = connectionsRepository.create({ user_id });
+
+    await connectionsRepository.save(connection);
 
     return res.status(201).send();
   }
