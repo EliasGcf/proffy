@@ -50,10 +50,16 @@ Technologies that I used to develop this application
 - [TypeScript](https://www.typescriptlang.org/)
 - [Expo](https://expo.io/)
 - [Express](https://expressjs.com/pt-br/)
-- [Knex](http://knexjs.org/)
-- [SQLite](https://www.sqlite.org/)
+- [TypeORM](https://typeorm.io/#/)
+- [JWT-token](https://jwt.io/)
+- [PostgreSQL](https://www.postgresql.org/)
 - [React Router DOM](https://reacttraining.com/react-router/)
 - [React Navigation](https://reactnavigation.org/)
+- [Husky](https://github.com/typicode/husky)
+- [Commitlint](https://github.com/conventional-changelog/commitlint)
+- [Eslint](https://eslint.org/)
+- [Prettier](https://prettier.io/)
+- [EditorConfig](https://editorconfig.org/)
 
 ## 💻 Getting started
 
