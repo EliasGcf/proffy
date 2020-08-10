@@ -97,10 +97,10 @@ docker run --name proffy-postgres -e POSTGRES_USER=docker \
               -p 5432:5432 -d postgres
 
 # Use the script to run the migrations
-$ yarn server knex:migrate
+$ yarn server typeorm:migration:run
 
 # To finish, run the api service
-$ yarn server dev
+$ yarn server dev:server
 
 # Well done, project is started!
 ```
