@@ -6,8 +6,10 @@ import {
   UpdateDateColumn,
   CreateDateColumn,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 import { User } from './User';
+import { ClassSchedule } from './ClassSchedule';
 
 @Entity('classes')
 export class Class {
@@ -26,6 +28,11 @@ export class Class {
   @ManyToOne(() => User, user => user.classes)
   @JoinColumn({ name: 'user_id' })
   user: User;
+
+  @OneToMany(() => ClassSchedule, classSchedule => classSchedule.class, {
+    cascade: ['insert'],
+  })
+  class_schedule: ClassSchedule[];
 
   @CreateDateColumn()
   created_at: Date;

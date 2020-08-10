@@ -4,8 +4,8 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  OneToOne,
   JoinColumn,
+  ManyToOne,
 } from 'typeorm';
 
 import { Class } from './Class';
@@ -18,7 +18,7 @@ export class ClassSchedule {
   @Column()
   class_id: string;
 
-  @OneToOne(() => Class)
+  @ManyToOne(() => Class, classEntity => classEntity.class_schedule)
   @JoinColumn({ name: 'class_id' })
   class: Class;
 
