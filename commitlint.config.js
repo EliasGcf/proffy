@@ -1,1 +1,4 @@
-module.exports = {extends: ['rocketseat']};
+module.exports = {
+  extends: ['rocketseat'],
+  'scope-empty': 'never',
+};

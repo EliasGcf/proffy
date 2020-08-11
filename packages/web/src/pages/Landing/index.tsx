@@ -9,7 +9,6 @@ import purpleHeartIcon from '../../assets/images/icons/purple-heart.svg';
 
 import api from '../../services/api';
 
-// import './styles.css';
 import { Container, Content, LogoContainer, ButtonsContainer } from './styles';
 
 const Landing: React.FC = () => {
