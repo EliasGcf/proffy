@@ -6,7 +6,7 @@ import TeacherItem, { Teacher } from '../../components/TeacherItem';
 import Input from '../../components/Input';
 import Select from '../../components/Select';
 
-import './styles.css';
+import { Container, FormSearchTeachers } from './styles';
 
 const TeacherList: React.FC = () => {
   const [teachers, setTeachers] = useState([]);
@@ -33,9 +33,9 @@ const TeacherList: React.FC = () => {
   );
 
   return (
-    <div id="page-teacher-list" className="contaienr">
+    <Container>
       <PageHeader title="Estes são os Proffys disponívies.">
-        <form onSubmit={searchTeachers} id="search-teachers">
+        <FormSearchTeachers onSubmit={searchTeachers}>
           <Select
             name="subject"
             label="Matéria"
@@ -74,7 +74,7 @@ const TeacherList: React.FC = () => {
           />
 
           <button type="submit">Buscar</button>
-        </form>
+        </FormSearchTeachers>
       </PageHeader>
 
       <main>
@@ -82,7 +82,7 @@ const TeacherList: React.FC = () => {
           <TeacherItem key={teacher.id} teacher={teacher} />
         ))}
       </main>
-    </div>
+    </Container>
   );
 };
 
