@@ -1,4 +1,6 @@
 module.exports = {
   extends: ['rocketseat'],
-  'scope-empty': 'never',
+  rules: {
+    'scope-enum': [2, 'always', 'server', 'web', 'mobile']
+  }
 };
