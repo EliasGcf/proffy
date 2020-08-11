@@ -9,8 +9,10 @@ import Select from '../../components/Select';
 
 import warningIcon from '../../assets/images/icons/warning.svg';
 
-import './styles.css';
+// import './styles.css';
 import api from '../../services/api';
+
+import { Container, Block, Footer } from './styles';
 
 const TeacherForm: React.FC = () => {
   const history = useHistory();
@@ -73,7 +75,7 @@ const TeacherForm: React.FC = () => {
   );
 
   return (
-    <div id="page-teacher-form" className="contaienr">
+    <Container id="page-teacher-form">
       <PageHeader
         title="Que incrível que você quer dar aulas."
         description="O primeiro passo é preencher esse formulário de inscrição"
@@ -81,7 +83,7 @@ const TeacherForm: React.FC = () => {
 
       <main>
         <form onSubmit={handleCreateClass}>
-          <fieldset>
+          <Block>
             <legend>Seus dados</legend>
 
             <Input
@@ -111,9 +113,9 @@ const TeacherForm: React.FC = () => {
               value={bio}
               onChange={e => setBio(e.target.value)}
             />
-          </fieldset>
+          </Block>
 
-          <fieldset>
+          <Block>
             <legend>Sobre a aula</legend>
 
             <Select
@@ -135,9 +137,9 @@ const TeacherForm: React.FC = () => {
               value={cost}
               onChange={e => setCost(e.target.value)}
             />
-          </fieldset>
+          </Block>
 
-          <fieldset>
+          <Block>
             <legend>
               Horários disponívies
               <button type="button" onClick={addNewScheduleItem}>
@@ -186,9 +188,9 @@ const TeacherForm: React.FC = () => {
                 />
               </div>
             ))}
-          </fieldset>
+          </Block>
 
-          <footer>
+          <Footer>
             <p>
               <img src={warningIcon} alt="Aviso importante" />
               Important!
@@ -196,10 +198,10 @@ const TeacherForm: React.FC = () => {
               Preencha todos os dados
             </p>
             <button type="submit">Salvar cadastro</button>
-          </footer>
+          </Footer>
         </form>
       </main>
-    </div>
+    </Container>
   );
 };
 
