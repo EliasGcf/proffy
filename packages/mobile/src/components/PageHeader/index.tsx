@@ -1,12 +1,12 @@
-import React, { ReactNode, useCallback } from 'react';
-import { Text, View, Image } from 'react-native';
+import React, { useCallback } from 'react';
+import { Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import { BorderlessButton } from 'react-native-gesture-handler';
 import backIcon from '../../assets/images/icons/back.png';
 import logoImg from '../../assets/images/logo.png';
 
-import styles from './styles';
+import { Container, TopBarContainer, Header, Title } from './styles';
 
 interface PageHeaderProps {
   title: string;
@@ -25,22 +25,22 @@ const PageHeader: React.FC<PageHeaderProps> = ({
   }, [navigate]);
 
   return (
-    <View style={styles.container}>
-      <View style={styles.topBar}>
+    <Container>
+      <TopBarContainer>
         <BorderlessButton onPress={handleGoBack}>
           <Image source={backIcon} resizeMode="contain" />
         </BorderlessButton>
 
         <Image source={logoImg} resizeMode="contain" />
-      </View>
+      </TopBarContainer>
 
-      <View style={styles.header}>
-        <Text style={styles.title}>{title}</Text>
+      <Header>
+        <Title>{title}</Title>
         {headerRight && headerRight()}
-      </View>
+      </Header>
 
       {children}
-    </View>
+    </Container>
   );
 };
 

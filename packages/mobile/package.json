@@ -6,7 +6,6 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web",
     "postinstall": "expo-yarn-workspaces postinstall"
   },
   "dependencies": {
@@ -25,13 +24,15 @@
     "react": "^16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-38.0.2.tar.gz",
     "react-native-gesture-handler": "~1.6.0",
-    "react-native-picker-select": "^8.0.0",
+    "react-native-picker-select": "^7.0.0",
     "react-native-reanimated": "~1.9.0",
     "react-native-safe-area-context": "~3.0.7",
     "react-native-screens": "~2.9.0",
-    "react-native-web": "~0.11.7"
+    "react-native-web": "~0.11.7",
+    "styled-components": "^5.1.1"
   },
   "devDependencies": {
+    "@types/styled-components": "^5.1.2",
     "@babel/core": "7.9.0",
     "@types/react": "^16.9.0",
     "@types/react-native": "~0.62.13",

@@ -1,57 +1,59 @@
-import { StyleSheet } from 'react-native';
+import styled from 'styled-components/native';
+import { RectButton } from 'react-native-gesture-handler';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f0f0f7',
-  },
+export const Container = styled.View`
+  flex: 1;
+  background: ${({ theme }) => theme.colors.background};
+`;
 
-  teacherList: {
-    marginTop: -40,
-  },
+export const SearchForm = styled.View`
+  margin-bottom: 24px;
+`;
 
-  searchForm: {
-    marginBottom: 24,
-  },
+export const Label = styled.Text`
+  color: ${({ theme }) => theme.colors.textInPrimary};
+  font-family: 'Poppins_400Regular';
+`;
 
-  label: {
-    color: '#d4c2ff',
-    fontFamily: 'Poppins_400Regular',
-  },
+export const InputGroup = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+`;
 
-  inputGroup: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
+export const InputBlock = styled.View`
+  width: 48%;
+`;
 
-  inputBlock: {
-    width: '48%',
-  },
+export const TextInput = styled.TextInput`
+  height: 54px;
+  background: ${({ theme }) => theme.colors.boxBase};
+  border-radius: 8px;
+  justify-content: center;
+  padding: 0 16px;
+  margin-top: 4px;
+  margin-bottom: 16px;
+`;
 
-  input: {
-    height: 54,
-    backgroundColor: '#fff',
-    borderRadius: 8,
-    justifyContent: 'center',
+export const SubmitButton = styled(RectButton)`
+  background: ${({ theme }) => theme.colors.secondary};
+  height: 56px;
+  flex-direction: row;
+  border-radius: 8px;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const SubmitButtonText = styled.Text`
+  font-family: 'Archivo_700Bold';
+  color: ${({ theme }) => theme.colors.buttonText};
+  font-size: 16px;
+`;
+
+export const TeacherListScrollView = styled.ScrollView.attrs({
+  contentContainerStyle: {
     paddingHorizontal: 16,
-    marginTop: 4,
-    marginBottom: 16,
+    paddingBottom: 16,
   },
-
-  submitButton: {
-    backgroundColor: '#04d361',
-    height: 56,
-    flexDirection: 'row',
-    borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-
-  submitButtonText: {
-    color: '#fff',
-    fontFamily: 'Archivo_700Bold',
-    fontSize: 16,
-  },
-});
-
-export default styles;
+})`
+  margin-top: -40px;
+`;

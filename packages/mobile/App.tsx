@@ -2,7 +2,7 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { AppLoading } from 'expo';
-
+import { ThemeProvider } from 'styled-components';
 import {
   useFonts,
   Archivo_400Regular,
@@ -12,6 +12,8 @@ import {
   Poppins_400Regular,
   Poppins_600SemiBold,
 } from '@expo-google-fonts/poppins';
+
+import lightTheme from './src/styles/themes/light';
 
 import AppStack from './src/routes/AppStack';
 
@@ -28,10 +30,10 @@ const App: React.FC = () => {
   }
 
   return (
-    <>
+    <ThemeProvider theme={lightTheme}>
       <StatusBar style="light" />
       <AppStack />
-    </>
+    </ThemeProvider>
   );
 };
 
