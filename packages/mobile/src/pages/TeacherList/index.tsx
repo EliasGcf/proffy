@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useMemo } from 'react';
-import { View, Text, ScrollView, TextInput } from 'react-native';
-import { BorderlessButton, RectButton } from 'react-native-gesture-handler';
+import { BorderlessButton } from 'react-native-gesture-handler';
 import { Feather } from '@expo/vector-icons';
 import { useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -12,7 +11,17 @@ import PageHeader from '../../components/PageHeader';
 import TeacherItem, { Teacher } from '../../components/TeacherItem';
 import RNPickerSelect from '../../components/RNPickerSelect';
 
-import styles from './styles';
+import {
+  Container,
+  SearchForm,
+  Label,
+  InputGroup,
+  InputBlock,
+  TextInput,
+  SubmitButton,
+  SubmitButtonText,
+  TeacherListScrollView,
+} from './styles';
 
 const TeacherList: React.FC = () => {
   const [isFiltersVisible, setIsFiltersVisible] = useState(true);
@@ -83,63 +92,45 @@ const TeacherList: React.FC = () => {
   }, [handleToggleFiltersVisible]);
 
   return (
-    <View style={styles.container}>
+    <Container>
       <PageHeader title="Proffys disponíveis" headerRight={RenderRightIcon}>
         {isFiltersVisible && (
-          <View style={styles.searchForm}>
-            <Text style={styles.label}>Matéria</Text>
+          <SearchForm>
+            <Label>Matéria</Label>
             <TextInput
-              style={styles.input}
               placeholder="Qual a matéria?"
               placeholderTextColor="#c1bccc"
               value={subject}
               onChangeText={text => setSubject(text)}
             />
 
-            <View style={styles.inputGroup}>
-              <View style={styles.inputBlock}>
-                <Text style={styles.label}>Dia da semana</Text>
-                {/* <TextInput
-                  style={styles.input}
-                  placeholder="Qual o dia?"
-                  placeholderTextColor="#c1bccc"
-                  value={week_day}
-                  onChangeText={text => setWeek_day(text)}
-                /> */}
+            <InputGroup>
+              <InputBlock>
+                <Label>Dia da semana</Label>
                 <RNPickerSelect
                   items={weekOptions}
                   onValueChange={setWeek_day}
                 />
-              </View>
-              <View style={styles.inputBlock}>
-                <Text style={styles.label}>Horário</Text>
+              </InputBlock>
+              <InputBlock>
+                <Label>Horário</Label>
                 <TextInput
-                  style={styles.input}
                   placeholder="Qual o horário?"
                   placeholderTextColor="#c1bccc"
                   value={time}
                   onChangeText={text => setTime(text)}
                 />
-              </View>
-            </View>
+              </InputBlock>
+            </InputGroup>
 
-            <RectButton
-              onPress={handleFiltersSubmit}
-              style={styles.submitButton}
-            >
-              <Text style={styles.submitButtonText}>Filtrar</Text>
-            </RectButton>
-          </View>
+            <SubmitButton onPress={handleFiltersSubmit}>
+              <SubmitButtonText>Filtrar</SubmitButtonText>
+            </SubmitButton>
+          </SearchForm>
         )}
       </PageHeader>
 
-      <ScrollView
-        style={styles.teacherList}
-        contentContainerStyle={{
-          paddingHorizontal: 16,
-          paddingBottom: 16,
-        }}
-      >
+      <TeacherListScrollView>
         {teachers.map((teacher: Teacher) => (
           <TeacherItem
             key={teacher.id}
@@ -147,8 +138,8 @@ const TeacherList: React.FC = () => {
             favorited={favorites.includes(teacher.id)}
           />
         ))}
-      </ScrollView>
-    </View>
+      </TeacherListScrollView>
+    </Container>
   );
 };
 
