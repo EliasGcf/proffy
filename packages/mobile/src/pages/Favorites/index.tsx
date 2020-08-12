@@ -12,18 +12,20 @@ import styles from './styles';
 const Favorites: React.FC = () => {
   const [favorites, setFavorites] = useState([]);
 
-  const loadFavorites = useCallback(async () => {
-    const response = await AsyncStorage.getItem('@Proffy:favorites');
+  useFocusEffect(
+    useCallback(() => {
+      const loadFavorites = async (): Promise<void> => {
+        const response = await AsyncStorage.getItem('@Proffy:favorites');
 
-    if (response) {
-      const favoritedTeachers = JSON.parse(response);
-      setFavorites(favoritedTeachers);
-    }
-  }, []);
+        if (response) {
+          const favoritedTeachers = JSON.parse(response);
+          setFavorites(favoritedTeachers);
+        }
+      };
 
-  useFocusEffect(() => {
-    loadFavorites();
-  });
+      loadFavorites();
+    }, []),
+  );
 
   return (
     <View style={styles.container}>

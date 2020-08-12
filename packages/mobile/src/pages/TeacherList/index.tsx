@@ -57,9 +57,14 @@ const TeacherList: React.FC = () => {
     }
   }, []);
 
-  useFocusEffect(() => {
-    loadFavorites();
-  });
+  // useFocusEffect(() => {
+  //   loadFavorites();
+  // });
+  useFocusEffect(
+    useCallback(() => {
+      loadFavorites();
+    }, [loadFavorites]),
+  );
 
   const handleToggleFiltersVisible = useCallback(() => {
     setIsFiltersVisible(state => !state);
