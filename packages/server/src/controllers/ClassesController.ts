@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 
+import { classToClass } from 'class-transformer';
 import { convertHoursToMinutes } from '../utils/convertHourtToMinuts';
 import { Class } from '../entities/Class';
 
@@ -28,6 +29,7 @@ export class ClassesController {
     const timeInMinutes = convertHoursToMinutes(time);
 
     const classes = await classesRepository.find({
+      relations: ['user'],
       join: {
         alias: 'classes',
         innerJoin: { class_schedule: 'classes.class_schedule' },
@@ -40,7 +42,7 @@ export class ClassesController {
       },
     });
 
-    return res.json(classes);
+    return res.json(classToClass(classes));
   }
 
   async create(req: Request, res: Response): Promise<Response> {
