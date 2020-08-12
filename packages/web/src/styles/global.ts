@@ -19,11 +19,11 @@ export default createGlobalStyle`
     background: ${({ theme }) => theme.colors.background};
   }
 
-  #root {
+  /* #root {
     display: flex;
     align-items: center;
     justify-content: center;
-  }
+  } */
 
   body,
   input,
@@ -31,6 +31,10 @@ export default createGlobalStyle`
   textarea {
     font: 500 1.6rem Poppins;
     color: ${({ theme }) => theme.colors.textBase};
+  }
+
+  button {
+    cursor: pointer;
   }
 
   .container {
