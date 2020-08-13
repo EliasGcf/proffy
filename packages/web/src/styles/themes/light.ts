@@ -18,5 +18,6 @@ export default {
     buttonText: '#FFFFFF',
     boxBase: '#FFFFFF',
     boxFooter: '#FAFAFC',
+    error: '#e33d3d',
   },
 } as const;

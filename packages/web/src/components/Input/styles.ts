@@ -1,32 +1,95 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-export const InputContainer = styled.div`
+interface InputContainerProps {
+  isField: boolean;
+  isErrored: boolean;
+}
+
+export const InputContainer = styled.div<InputContainerProps>`
   position: relative;
+  height: 7.2rem;
+  border-radius: 0.8rem;
+  background: ${({ theme }) => theme.colors.inputBackground};
+  border: ${({ theme, isErrored }) =>
+    `1px solid ${isErrored ? theme.colors.error : theme.colors.lineInWhite}`};
+  padding: 0 2.4rem;
+
+  display: flex;
 
   label {
-    font-size: 1.4rem;
+    font: 1.2rem Poppins;
+    color: ${({ theme }) => theme.colors.textComplement};
+    position: absolute;
+    left: 2.4rem;
+    top: 4rem;
+    opacity: 0;
+
+    transition: top 0.3s, opacity 0.15s;
   }
 
   input {
     width: 100%;
-    height: 5.6rem;
-    margin-top: 0.8rem;
-    border-radius: 0.8rem;
-    background: ${({ theme }) => theme.colors.inputBackground};
-    border: ${({ theme }) => `1px solid ${theme.colors.lineInWhite}`};
+
+    background: none;
+    border: none;
     outline: none;
-    padding: 0 1.6rem;
-    font: 1.6rem Archivo;
+    font: 1.6rem Poppins;
+
+    &::placeholder {
+      color: ${({ theme }) => theme.colors.textComplement};
+    }
+
+    &:focus {
+      margin-top: 1.6rem;
+
+      ::placeholder {
+        color: transparent;
+      }
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+    }
+
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus,
+    &:-webkit-autofill:active {
+      box-shadow: 0 0 0px 1000px #fff inset;
+      transition: 'color 9999s ease-out, background-color 9999s ease-out';
+      transition-delay: 9999s;
+    }
   }
 
-  &:focus-within::after {
-    width: calc(100% - 3.2rem);
-    height: 2px;
-    content: '';
-    background: ${({ theme }) => theme.colors.primaryLight};
-    position: absolute;
-    left: 1.6rem;
-    right: 1.6rem;
-    bottom: 0;
+  ${props =>
+    props.isField &&
+    css`
+      label {
+        opacity: 1;
+        top: 1.4rem;
+      }
+
+      input {
+        margin-top: 1.6rem;
+      }
+    `}
+
+  &:focus-within {
+    label {
+      opacity: 1;
+      top: 1.4rem;
+    }
+
+    ::after {
+      width: 2px;
+      height: 48px;
+      content: '';
+      background: ${({ theme }) => theme.colors.primaryLight};
+      border-radius: 0.8rem;
+      position: absolute;
+      left: 0;
+      bottom: 1.2rem;
+      top: 1.2rem;
+    }
   }
 `;

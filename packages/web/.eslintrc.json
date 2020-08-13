@@ -37,6 +37,7 @@
     "@typescript-eslint/camelcase": "off",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
+    "no-param-reassign": "off",
     "no-unused-expressions": "off",
     "import/no-duplicates": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],

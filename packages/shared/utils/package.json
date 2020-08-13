@@ -1,0 +1,17 @@
+{
+  "name": "@proffy/utils",
+  "version": "1.0.0",
+  "main": "lib/index.js",
+  "typings": "index.d.ts",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "yup": "^0.29.3"
+  },
+  "devDependencies": {
+    "@types/yup": "^0.29.4"
+  }
+}
