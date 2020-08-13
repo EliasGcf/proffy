@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components';
 
 interface InputContainerProps {
   isField: boolean;
+  isErrored: boolean;
 }
 
 export const InputContainer = styled.div<InputContainerProps>`
@@ -9,7 +10,8 @@ export const InputContainer = styled.div<InputContainerProps>`
   height: 7.2rem;
   border-radius: 0.8rem;
   background: ${({ theme }) => theme.colors.inputBackground};
-  border: ${({ theme }) => `1px solid ${theme.colors.lineInWhite}`};
+  border: ${({ theme, isErrored }) =>
+    `1px solid ${isErrored ? theme.colors.error : theme.colors.lineInWhite}`};
   padding: 0 2.4rem;
 
   display: flex;

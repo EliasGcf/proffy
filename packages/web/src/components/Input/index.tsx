@@ -3,19 +3,29 @@ import React, {
   useRef,
   useCallback,
   useState,
+  useEffect,
 } from 'react';
+import { useField } from '@unform/core';
 
 import { InputContainer } from './styles';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
-  label?: string;
+  label: string;
 }
 
 const Input: React.FC<InputProps> = ({ label, name, ...rest }) => {
   const inputRef = useRef<HTMLInputElement>(null);
-
   const [isField, setIsField] = useState(false);
+  const { fieldName, defaultValue = '', error, registerField } = useField(name);
+
+  useEffect(() => {
+    registerField({
+      name: fieldName,
+      ref: inputRef.current,
+      path: 'value',
+    });
+  }, [fieldName, registerField]);
 
   const handleOnBlur = useCallback(() => {
     if (inputRef.current?.value) {
@@ -26,12 +36,13 @@ const Input: React.FC<InputProps> = ({ label, name, ...rest }) => {
   }, []);
 
   return (
-    <InputContainer isField={isField}>
-      {label && <label htmlFor={name}>{label}</label>}
+    <InputContainer isField={isField} isErrored={!!error}>
+      <label htmlFor={name}>{label}</label>
       <input
         onBlur={handleOnBlur}
         ref={inputRef}
         type="text"
+        defaultValue={defaultValue}
         id={name}
         {...rest}
       />
