@@ -16,6 +16,7 @@ export default {
     lineInWhite: '#E6E6F0',
     inputBackground: '#F8F8FC',
     buttonText: '#FFFFFF',
+    buttonNotAvailable: '#DCDCE5',
     boxBase: '#FFFFFF',
     boxFooter: '#FAFAFC',
     error: '#e33d3d',

@@ -1,9 +1,14 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { darken } from 'polished';
+import { Form as Unform } from '@unform/web';
 
 import { InputContainer } from '../../components/Input/styles';
 
 import backgroundAsset from '../../assets/images/background-asset.svg';
+
+interface FormProps {
+  isSubmitAvailable: boolean;
+}
 
 export const Container = styled.div`
   height: 100vh;
@@ -54,52 +59,63 @@ export const Content = styled.div`
 
   padding: 0 2.4rem;
 
-
-  form {
-    width: 100%;
-    max-width: 350px;
-
-    h1 {
-      font: 3.6rem Poppins;
-      font-weight: 600;
-      color: ${({ theme }) => theme.colors.textTitle};
-      margin-bottom: 4rem;
-    }
-
-    ${InputContainer} {
-      border-radius: 0.8rem 0.8rem 0 0;
-    }
-
-    ${InputContainer} + ${InputContainer} {
-      border-radius:  0 0 0.8rem 0.8rem;
-    }
-
-    button[type='submit'] {
-      border: none;
-      margin-top: 4rem;
-      width: 100%;
-      background: ${({ theme }) => theme.colors.secondary};
-      height: 5.6rem;
-      border-radius: 0.8rem;
-      font: 1.6rem Archivo;
-      color: ${({ theme }) => theme.colors.buttonText};
-      outline: none;
-
-      transition: background 0.3s;
-
-      &:hover {
-        background: ${({ theme }) => theme.colors.secondaryDark};
-      }
-
-      &:disabled {
-        background: ${({ theme }) => theme.colors.secondaryDark};
-        cursor: not-allowed;
-      }
-    }
-  }
-
   @media (min-width: 730px) {
     width: 45%;
+  }
+`;
+
+export const Form = styled(Unform)<FormProps>`
+  width: 100%;
+  max-width: 350px;
+
+  h1 {
+    font: 3.6rem Poppins;
+    font-weight: 600;
+    color: ${({ theme }) => theme.colors.textTitle};
+    margin-bottom: 4rem;
+  }
+
+  ${InputContainer} {
+    border-radius: 0.8rem 0.8rem 0 0;
+  }
+
+  ${InputContainer} + ${InputContainer} {
+    border-radius:  0 0 0.8rem 0.8rem;
+  }
+
+  button[type='submit'] {
+    border: none;
+    margin-top: 4rem;
+    width: 100%;
+    background: ${({ theme }) => theme.colors.buttonNotAvailable};
+    cursor: not-allowed;
+    height: 5.6rem;
+    border-radius: 0.8rem;
+    font: 1.6rem Archivo;
+    color: ${({ theme }) => theme.colors.textComplement};
+    outline: none;
+
+    transition: background 0.3s;
+
+    &:hover {
+      ${({ isSubmitAvailable }) =>
+        isSubmitAvailable &&
+        css`
+          background: ${({ theme }) => theme.colors.secondaryDark};
+        `}
+    }
+
+    &:disabled {
+      background: ${({ theme }) => theme.colors.buttonNotAvailable};
+    }
+
+    ${({ isSubmitAvailable }) =>
+      isSubmitAvailable &&
+      css`
+        color: ${({ theme }) => theme.colors.buttonText};
+        background: ${({ theme }) => theme.colors.secondary};
+        cursor: pointer;
+      `}
   }
 `;
 

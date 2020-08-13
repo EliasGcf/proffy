@@ -1,6 +1,5 @@
 import React, { useCallback, useRef, useState } from 'react';
 import * as Yup from 'yup';
-import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 import { getValidationErrors } from '@proffy/utils';
 
@@ -10,7 +9,7 @@ import Input from '../../components/Input';
 
 import CheckBox from './components/CheckBox';
 
-import { Container, Content, Info, OptionsBlock, Footer } from './styles';
+import { Container, Content, Info, Form, OptionsBlock, Footer } from './styles';
 import { useAuth } from '../../hooks/auth';
 
 interface SignInFormData {
@@ -22,8 +21,20 @@ interface SignInFormData {
 const SignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const [loading, setLoading] = useState(false);
+  const [submitAvailable, setSubmitAvailable] = useState(false);
 
   const { signIn } = useAuth();
+
+  const handleInputOnChange = useCallback(() => {
+    const data = formRef.current?.getData() as SignInFormData;
+
+    if (data?.email && data?.password) {
+      setSubmitAvailable(true);
+      return;
+    }
+
+    setSubmitAvailable(false);
+  }, []);
 
   const handleSubmit = useCallback(
     async (data: SignInFormData) => {
@@ -76,23 +87,27 @@ const SignIn: React.FC = () => {
       </Info>
 
       <Content>
-        <Form ref={formRef} onSubmit={handleSubmit}>
+        <Form
+          isSubmitAvailable={submitAvailable}
+          ref={formRef}
+          onSubmit={handleSubmit}
+        >
           <h1>Fazer Login</h1>
 
           <Input
-            label="E-mail"
             name="email"
             placeholder="E-mail"
             type="email"
             autoFocus
             disabled={loading}
+            onChange={handleInputOnChange}
           />
           <Input
-            label="Senha"
             name="password"
             placeholder="Senha"
             type="password"
             disabled={loading}
+            onChange={handleInputOnChange}
           />
 
           <OptionsBlock>
@@ -101,7 +116,7 @@ const SignIn: React.FC = () => {
             <a href="/">Esqueci minha senha</a>
           </OptionsBlock>
 
-          <button disabled={loading} type="submit">
+          <button disabled={loading || !submitAvailable} type="submit">
             Entrar
           </button>
         </Form>
