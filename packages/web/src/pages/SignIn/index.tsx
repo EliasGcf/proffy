@@ -1,13 +1,25 @@
-import React from 'react';
+import React, { useCallback } from 'react';
+import { Form } from '@unform/web';
 
 import { ProffyLogo } from '../../assets/images';
 import { PurpleHeartIcon } from '../../assets/images/icons';
 import Input from '../../components/Input';
 
-import { Container, Content, Info, OptionsBlock, Footer } from './styles';
 import CheckBox from './components/CheckBox';
 
+import { Container, Content, Info, OptionsBlock, Footer } from './styles';
+
+interface SignInFormData {
+  email: string;
+  password: string;
+  remember: boolean;
+}
+
 const SignIn: React.FC = () => {
+  const handleSubmit = useCallback((data: SignInFormData) => {
+    console.log(data);
+  }, []);
+
   return (
     <Container>
       <Info>
@@ -21,12 +33,12 @@ const SignIn: React.FC = () => {
       </Info>
 
       <Content>
-        <form>
+        <Form onSubmit={handleSubmit}>
           <h1>Fazer Login</h1>
 
           <Input
             label="E-mail"
-            name="e-mail"
+            name="email"
             placeholder="E-mail"
             type="email"
           />
@@ -38,13 +50,13 @@ const SignIn: React.FC = () => {
           />
 
           <OptionsBlock>
-            <CheckBox name="remember" label="Lembrar-me" />
+            <CheckBox name="remember" />
 
             <a href="/">Esqueci minha senha</a>
           </OptionsBlock>
 
           <button type="submit">Entrar</button>
-        </form>
+        </Form>
 
         <Footer>
           <span>
