@@ -17,7 +17,13 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 const Input: React.FC<InputProps> = ({ label, name, ...rest }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isField, setIsField] = useState(false);
-  const { fieldName, defaultValue = '', error, registerField } = useField(name);
+  const {
+    fieldName,
+    defaultValue = '',
+    error,
+    registerField,
+    clearError,
+  } = useField(name);
 
   useEffect(() => {
     registerField({
@@ -40,6 +46,7 @@ const Input: React.FC<InputProps> = ({ label, name, ...rest }) => {
       <label htmlFor={name}>{label}</label>
       <input
         onBlur={handleOnBlur}
+        onFocus={clearError}
         ref={inputRef}
         type="text"
         defaultValue={defaultValue}
