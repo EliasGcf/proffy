@@ -90,6 +90,11 @@ export const Content = styled.div`
       &:hover {
         background: ${({ theme }) => theme.colors.secondaryDark};
       }
+
+      &:disabled {
+        background: ${({ theme }) => theme.colors.secondaryDark};
+        cursor: not-allowed;
+      }
     }
   }
 
