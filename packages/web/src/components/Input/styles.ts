@@ -30,7 +30,7 @@ export const InputContainer = styled.div<InputContainerProps>`
   input {
     width: 100%;
 
-    background: ${({ theme }) => theme.colors.inputBackground};
+    background: none;
     border: none;
     outline: none;
     font: 1.6rem Poppins;
@@ -45,6 +45,10 @@ export const InputContainer = styled.div<InputContainerProps>`
       ::placeholder {
         color: transparent;
       }
+    }
+
+    &:disabled {
+      cursor: not-allowed;
     }
 
     &:-webkit-autofill,
