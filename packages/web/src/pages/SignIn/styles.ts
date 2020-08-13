@@ -8,8 +8,13 @@ import backgroundAsset from '../../assets/images/background-asset.svg';
 export const Container = styled.div`
   height: 100vh;
   display: flex;
+  flex-direction: column;
   align-items: stretch;
   background: ${({ theme }) => theme.colors.primary};
+
+  @media (min-width: 730px) {
+    flex-direction: row;
+  }
 `;
 
 export const Info = styled.div`
@@ -26,10 +31,12 @@ export const Info = styled.div`
     font-weight: 400;
   }
 
-  display: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 25rem;
 
   @media (min-width: 730px) {
-    display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
@@ -42,6 +49,7 @@ export const Content = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
+  height: 100%;
   background: ${({ theme }) => theme.colors.background};
 
   padding: 0 2.4rem;
