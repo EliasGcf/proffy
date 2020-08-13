@@ -46,6 +46,15 @@ export const InputContainer = styled.div<InputContainerProps>`
         color: transparent;
       }
     }
+
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus,
+    &:-webkit-autofill:active {
+      box-shadow: 0 0 0px 1000px #fff inset;
+      transition: 'color 9999s ease-out, background-color 9999s ease-out';
+      transition-delay: 9999s;
+    }
   }
 
   ${props =>
