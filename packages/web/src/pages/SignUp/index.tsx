@@ -1,34 +1,36 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useState, useRef } from 'react';
 import * as Yup from 'yup';
 import { FormHandles } from '@unform/core';
+import { Link, useHistory } from 'react-router-dom';
 import { getValidationErrors } from '@proffy/utils';
-import { Link } from 'react-router-dom';
+
+import api from '../../services/api';
 
 import { ProffyLogo } from '../../assets/images';
-import { PurpleHeartIcon } from '../../assets/images/icons';
+import { BackIcon } from '../../assets/images/icons';
+
 import Input from '../../components/Input';
 
-import CheckBox from './components/CheckBox';
+import { Container, Content, Form, Info } from './styles';
 
-import { Container, Content, Info, Form, OptionsBlock, Footer } from './styles';
-import { useAuth } from '../../hooks/auth';
-
-interface SignInFormData {
+interface SignUpFormData {
+  name: string;
+  lastname: string;
   email: string;
   password: string;
 }
 
-const SignIn: React.FC = () => {
+const SignUp: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const [loading, setLoading] = useState(false);
   const [submitAvailable, setSubmitAvailable] = useState(false);
 
-  const { signIn, setIsRememberMe, getIsRememberMe } = useAuth();
+  const history = useHistory();
 
   const handleInputOnChange = useCallback(() => {
-    const data = formRef.current?.getData() as SignInFormData;
+    const data = formRef.current?.getData() as SignUpFormData;
 
-    if (data?.email && data?.password) {
+    if (data?.name && data?.lastname && data?.email && data?.password) {
       setSubmitAvailable(true);
       return;
     }
@@ -37,11 +39,13 @@ const SignIn: React.FC = () => {
   }, []);
 
   const handleSubmit = useCallback(
-    async (data: SignInFormData) => {
+    async (data: SignUpFormData) => {
       try {
         formRef.current?.setErrors({});
 
         const schema = Yup.object().shape({
+          name: Yup.string().required('Nome é obrigatório'),
+          lastname: Yup.string().required('Sobre nome é obrigatório'),
           email: Yup.string()
             .email('Digite um e-mail válido')
             .required('E-mail é obrigatório'),
@@ -52,10 +56,15 @@ const SignIn: React.FC = () => {
 
         setLoading(true);
 
-        await signIn({
-          email: data.email,
-          password: data.password,
+        const { name, lastname, email, password } = data;
+
+        await api.post('users', {
+          name: `${name} ${lastname}`,
+          email,
+          password,
         });
+
+        history.goBack();
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
@@ -65,39 +74,48 @@ const SignIn: React.FC = () => {
         }
 
         // eslint-disable-next-line no-alert
-        alert('Ocorreu um erro ao efetuar login, tente novamente!');
+        alert('Ocorreu um erro ao efetuar cadastro, tente novamente!');
       } finally {
         setLoading(false);
       }
     },
-    [signIn],
+    [history],
   );
 
   return (
     <Container>
-      <Info>
-        <div>
-          <ProffyLogo />
-          <h2>
-            Sua plataforma de <br />
-            estudos online.
-          </h2>
-        </div>
-      </Info>
-
       <Content>
         <Form
-          isSubmitAvailable={submitAvailable}
           ref={formRef}
           onSubmit={handleSubmit}
+          isSubmitAvailable={submitAvailable}
         >
-          <h1>Fazer Login</h1>
+          <Link to="/">
+            <BackIcon />
+          </Link>
 
+          <h1>Cadastro</h1>
+          <span>
+            Preencha os dados abaixo
+            <br /> para começar.
+          </span>
+          <Input
+            name="name"
+            placeholder="Nome"
+            autoFocus
+            disabled={loading}
+            onChange={handleInputOnChange}
+          />
+          <Input
+            name="lastname"
+            placeholder="Sobrenome"
+            disabled={loading}
+            onChange={handleInputOnChange}
+          />
           <Input
             name="email"
             placeholder="E-mail"
             type="email"
-            autoFocus
             disabled={loading}
             onChange={handleInputOnChange}
           />
@@ -109,35 +127,22 @@ const SignIn: React.FC = () => {
             onChange={handleInputOnChange}
           />
 
-          <OptionsBlock>
-            <CheckBox
-              onChange={e => setIsRememberMe(e.target.checked)}
-              name="remember"
-              disabled={loading}
-              defaultChecked={getIsRememberMe()}
-            />
-
-            <a href="/">Esqueci minha senha</a>
-          </OptionsBlock>
-
           <button disabled={loading || !submitAvailable} type="submit">
             Entrar
           </button>
         </Form>
-
-        <Footer>
-          <span>
-            Não tem conta? <br />
-            <Link to="/signup">Cadastre-se</Link>
-          </span>
-
-          <small>
-            É de graça <PurpleHeartIcon />
-          </small>
-        </Footer>
       </Content>
+      <Info>
+        <div>
+          <ProffyLogo />
+          <h2>
+            Sua plataforma de <br />
+            estudos online.
+          </h2>
+        </div>
+      </Info>
     </Container>
   );
 };
 
-export default SignIn;
+export default SignUp;
