@@ -15,7 +15,6 @@ import { useAuth } from '../../hooks/auth';
 interface SignInFormData {
   email: string;
   password: string;
-  remember: boolean;
 }
 
 const SignIn: React.FC = () => {
@@ -23,7 +22,7 @@ const SignIn: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [submitAvailable, setSubmitAvailable] = useState(false);
 
-  const { signIn } = useAuth();
+  const { signIn, setIsRememberMe, getIsRememberMe } = useAuth();
 
   const handleInputOnChange = useCallback(() => {
     const data = formRef.current?.getData() as SignInFormData;
@@ -56,7 +55,6 @@ const SignIn: React.FC = () => {
         await signIn({
           email: data.email,
           password: data.password,
-          remember: data.remember,
         });
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
@@ -66,7 +64,8 @@ const SignIn: React.FC = () => {
           return;
         }
 
-        console.log(err);
+        // eslint-disable-next-line no-alert
+        alert('Ocorreu um erro ao efetuar login, tente novamente!');
       } finally {
         setLoading(false);
       }
@@ -111,7 +110,12 @@ const SignIn: React.FC = () => {
           />
 
           <OptionsBlock>
-            <CheckBox name="remember" disabled={loading} />
+            <CheckBox
+              onChange={e => setIsRememberMe(e.target.checked)}
+              name="remember"
+              disabled={loading}
+              defaultChecked={getIsRememberMe()}
+            />
 
             <a href="/">Esqueci minha senha</a>
           </OptionsBlock>

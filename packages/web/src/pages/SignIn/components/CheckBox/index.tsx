@@ -3,45 +3,33 @@ import React, {
   useState,
   useCallback,
   useRef,
-  useEffect,
 } from 'react';
-import { useField } from '@unform/core';
 
 import { CheckIcon } from '../../../../assets/images/icons';
 
 import { CheckBoxIcon, LabelContainer } from './styles';
 
-interface CheckBoxProps
-  extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
+interface CheckBoxProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
 }
 
-const CheckBox: React.FC<CheckBoxProps> = ({ name, ...rest }) => {
-  const [isChecked, setIsChecked] = useState(false);
+const CheckBox: React.FC<CheckBoxProps> = ({
+  name,
+  onChange,
+  defaultChecked,
+  ...rest
+}) => {
   const inputRef = useRef<HTMLInputElement>(null);
-  const { fieldName, registerField, defaultValue = false } = useField(name);
+  const [isChecked, setIsChecked] = useState(!!defaultChecked);
 
-  useEffect(() => {
-    registerField({
-      name: fieldName,
-      ref: inputRef.current,
-      getValue: (ref: HTMLInputElement) => {
-        return ref.checked || false;
-      },
-      setValue: (ref: HTMLInputElement, value: boolean) => {
-        ref.checked = value;
-        setIsChecked(value);
-      },
-      clearValue: (ref: HTMLInputElement) => {
-        ref.checked = false;
-        setIsChecked(false);
-      },
-    });
-  }, [defaultValue, fieldName, registerField]);
+  const handleToggleChecked = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setIsChecked(state => !state);
 
-  const handleToggleChecked = useCallback(() => {
-    setIsChecked(state => !state);
-  }, []);
+      onChange && onChange(event);
+    },
+    [onChange],
+  );
 
   return (
     <LabelContainer htmlFor={name}>
@@ -51,7 +39,7 @@ const CheckBox: React.FC<CheckBoxProps> = ({ name, ...rest }) => {
       <input
         ref={inputRef}
         onChange={handleToggleChecked}
-        defaultChecked={defaultValue}
+        defaultChecked={defaultChecked}
         type="checkbox"
         id={name}
         {...rest}

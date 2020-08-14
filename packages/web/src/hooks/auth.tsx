@@ -19,28 +19,31 @@ interface AuthState {
 interface SignInCredentials {
   email: string;
   password: string;
-  remember: boolean;
 }
-
 interface AuthContextData {
   user: User;
   signIn(credentials: SignInCredentials): Promise<void>;
   signOut(): void;
+  setIsRememberMe(isRememberMe: boolean): void;
+  getIsRememberMe(): boolean;
   // updateUser(user: User): void;
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 const AuthProvider: React.FC = ({ children }) => {
-  const [data, setData] = useState<AuthState>(() => {
+  const [storage, setStorage] = useState<Storage>(() => {
     const isRememberMe = localStorage.getItem('@Proffy:remember');
-    let storage: Storage = localStorage;
 
     if (isRememberMe) {
       const isRememberMeParsed = JSON.parse(isRememberMe);
-      storage = isRememberMeParsed ? localStorage : sessionStorage;
+      return isRememberMeParsed ? localStorage : sessionStorage;
     }
 
+    return sessionStorage;
+  });
+
+  const [data, setData] = useState<AuthState>(() => {
     const token = storage.getItem('@Proffy:token');
     const user = storage.getItem('@Proffy:user');
 
@@ -53,8 +56,7 @@ const AuthProvider: React.FC = ({ children }) => {
   });
 
   const signIn = useCallback(
-    async ({ email, password, remember }: SignInCredentials) => {
-      const storage = remember ? localStorage : sessionStorage;
+    async ({ email, password }: SignInCredentials) => {
       const reseponse = await api.post('sessions', { email, password });
 
       const { token, user } = reseponse.data;
@@ -62,32 +64,50 @@ const AuthProvider: React.FC = ({ children }) => {
       storage.setItem('@Proffy:token', token);
       storage.setItem('@Proffy:user', JSON.stringify(user));
 
-      localStorage.setItem('@Proffy:remember', JSON.stringify(remember));
-
       api.defaults.headers.authorization = `Bearer ${token}`;
 
       setData({ token, user });
     },
-    [],
+    [storage],
   );
 
   const signOut = useCallback(() => {
-    const isRememberMe = localStorage.getItem('@Proffy:remember');
-    let storage: Storage = localStorage;
-
-    if (isRememberMe) {
-      const isRememberMeParsed = JSON.parse(isRememberMe);
-      storage = isRememberMeParsed ? localStorage : sessionStorage;
-    }
-
     storage.removeItem('@Proffy:token');
     storage.removeItem('@Proffy:user');
 
     setData({} as AuthState);
+  }, [storage]);
+
+  const setIsRememberMe = useCallback(isRememberMe => {
+    if (!isRememberMe) {
+      localStorage.setItem('@Proffy:remember', JSON.stringify(false));
+      setStorage(sessionStorage);
+      return;
+    }
+
+    localStorage.setItem('@Proffy:remember', JSON.stringify(true));
+    setStorage(localStorage);
+  }, []);
+
+  const getIsRememberMe = useCallback(() => {
+    const isRememberMe = localStorage.getItem('@Proffy:remember');
+
+    if (!isRememberMe) return false;
+
+    const isRememberMeParsed = JSON.parse(isRememberMe);
+    return isRememberMeParsed;
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user: data.user, signIn, signOut }}>
+    <AuthContext.Provider
+      value={{
+        user: data.user,
+        signIn,
+        signOut,
+        setIsRememberMe,
+        getIsRememberMe,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
