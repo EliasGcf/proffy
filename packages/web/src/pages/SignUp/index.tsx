@@ -12,6 +12,7 @@ import { BackIcon } from '../../assets/images/icons';
 import Input from '../../components/Input';
 
 import { Container, Content, Form, Info } from './styles';
+import Success from './components/Success';
 
 interface SignUpFormData {
   name: string;
@@ -23,9 +24,8 @@ interface SignUpFormData {
 const SignUp: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const [loading, setLoading] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
   const [submitAvailable, setSubmitAvailable] = useState(false);
-
-  const history = useHistory();
 
   const handleInputOnChange = useCallback(() => {
     const data = formRef.current?.getData() as SignUpFormData;
@@ -38,49 +38,50 @@ const SignUp: React.FC = () => {
     setSubmitAvailable(false);
   }, []);
 
-  const handleSubmit = useCallback(
-    async (data: SignUpFormData) => {
-      try {
-        formRef.current?.setErrors({});
+  const handleSubmit = useCallback(async (data: SignUpFormData) => {
+    try {
+      formRef.current?.setErrors({});
 
-        const schema = Yup.object().shape({
-          name: Yup.string().required('Nome é obrigatório'),
-          lastname: Yup.string().required('Sobre nome é obrigatório'),
-          email: Yup.string()
-            .email('Digite um e-mail válido')
-            .required('E-mail é obrigatório'),
-          password: Yup.string().required('Senha é obrigatória'),
-        });
+      const schema = Yup.object().shape({
+        name: Yup.string().required('Nome é obrigatório'),
+        lastname: Yup.string().required('Sobre nome é obrigatório'),
+        email: Yup.string()
+          .email('Digite um e-mail válido')
+          .required('E-mail é obrigatório'),
+        password: Yup.string().required('Senha é obrigatória'),
+      });
 
-        await schema.validate(data, { abortEarly: false });
+      await schema.validate(data, { abortEarly: false });
 
-        setLoading(true);
+      setLoading(true);
 
-        const { name, lastname, email, password } = data;
+      const { name, lastname, email, password } = data;
 
-        await api.post('users', {
-          name: `${name} ${lastname}`,
-          email,
-          password,
-        });
+      await api.post('users', {
+        name: `${name} ${lastname}`,
+        email,
+        password,
+      });
 
-        history.goBack();
-      } catch (err) {
-        if (err instanceof Yup.ValidationError) {
-          const errors = getValidationErrors(err);
+      setShowSuccess(true);
+    } catch (err) {
+      if (err instanceof Yup.ValidationError) {
+        const errors = getValidationErrors(err);
 
-          formRef.current?.setErrors(errors);
-          return;
-        }
-
-        // eslint-disable-next-line no-alert
-        alert('Ocorreu um erro ao efetuar cadastro, tente novamente!');
-      } finally {
-        setLoading(false);
+        formRef.current?.setErrors(errors);
+        return;
       }
-    },
-    [history],
-  );
+
+      // eslint-disable-next-line no-alert
+      alert('Ocorreu um erro ao efetuar cadastro, tente novamente!');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  if (showSuccess) {
+    return <Success />;
+  }
 
   return (
     <Container>
