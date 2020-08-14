@@ -29,10 +29,12 @@ export default class CreateUsers1597012923811 implements MigrationInterface {
           {
             name: 'whatsapp',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'bio',
             type: 'text',
+            isNullable: true,
           },
           {
             name: 'avatar',
