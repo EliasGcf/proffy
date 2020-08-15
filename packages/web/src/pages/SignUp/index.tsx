@@ -1,7 +1,7 @@
 import React, { useCallback, useState, useRef } from 'react';
 import * as Yup from 'yup';
 import { FormHandles } from '@unform/core';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { getValidationErrors } from '@proffy/utils';
 
 import api from '../../services/api';
@@ -13,6 +13,7 @@ import Input from '../../components/Input';
 
 import { Container, Content, Form, Info } from './styles';
 import Success from './components/Success';
+import Button from '../../components/Button';
 
 interface SignUpFormData {
   name: string;
@@ -128,9 +129,13 @@ const SignUp: React.FC = () => {
             onChange={handleInputOnChange}
           />
 
-          <button disabled={loading || !submitAvailable} type="submit">
+          <Button
+            isLoading={loading}
+            disabled={loading || !submitAvailable}
+            type="submit"
+          >
             Entrar
-          </button>
+          </Button>
         </Form>
       </Content>
       <Info>
