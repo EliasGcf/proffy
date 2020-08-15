@@ -2,11 +2,11 @@ import React, { useState, useCallback } from 'react';
 import { Image, Linking } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 
-import api from '../../services/api';
-
 import heartOutlineIcon from '../../assets/images/icons/heart-outline.png';
 import unfavoriteIcon from '../../assets/images/icons/unfavorite.png';
 import whatsappIcon from '../../assets/images/icons/whatsapp.png';
+
+import api from '../../services/api';
 
 import {
   Container,

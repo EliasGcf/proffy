@@ -14,7 +14,6 @@ import {
 } from '@expo-google-fonts/poppins';
 
 import lightTheme from './src/styles/themes/light';
-
 import AppStack from './src/routes/AppStack';
 
 const App: React.FC = () => {

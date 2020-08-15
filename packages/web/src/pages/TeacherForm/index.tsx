@@ -2,15 +2,16 @@
 import React, { useState, FormEvent, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 
+import warningIcon from '../../assets/images/icons/warning.svg';
+
+import api from '../../services/api';
+
 import PageHeader from '../../components/PageHeader';
 import Input from '../../components/Input';
 import TextArea from '../../components/TextArea';
 import Select from '../../components/Select';
 
-import warningIcon from '../../assets/images/icons/warning.svg';
-
 // import './styles.css';
-import api from '../../services/api';
 
 import { Container, Block, Footer } from './styles';
 

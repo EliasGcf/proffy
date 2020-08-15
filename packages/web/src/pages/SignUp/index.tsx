@@ -4,16 +4,16 @@ import { FormHandles } from '@unform/core';
 import { Link } from 'react-router-dom';
 import { getValidationErrors } from '@proffy/utils';
 
-import api from '../../services/api';
-
 import { ProffyLogo } from '../../assets/images';
 import { BackIcon } from '../../assets/images/icons';
 
+import api from '../../services/api';
+
 import Input from '../../components/Input';
+import Button from '../../components/Button';
 
 import { Container, Content, Form, Info } from './styles';
 import Success from './components/Success';
-import Button from '../../components/Button';
 
 interface SignUpFormData {
   name: string;
