@@ -6,12 +6,12 @@ import { Link } from 'react-router-dom';
 
 import { ProffyLogo } from '../../assets/images';
 import { PurpleHeartIcon } from '../../assets/images/icons';
+
 import Input from '../../components/Input';
 import Button from '../../components/Button';
-import CheckBox from './components/CheckBox';
-
 import { useAuth } from '../../hooks/auth';
 
+import CheckBox from './components/CheckBox';
 import { Container, Content, Info, Form, OptionsBlock, Footer } from './styles';
 
 interface SignInFormData {

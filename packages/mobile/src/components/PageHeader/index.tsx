@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
 import { Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-
 import { BorderlessButton } from 'react-native-gesture-handler';
+
 import backIcon from '../../assets/images/icons/back.png';
 import logoImg from '../../assets/images/logo.png';
 

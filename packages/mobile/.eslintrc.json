@@ -27,7 +27,8 @@
     "react",
     "react-hooks",
     "@typescript-eslint",
-    "prettier"
+    "prettier",
+    "import-helpers"
   ],
   "rules": {
     "prettier/prettier": "error",
@@ -55,6 +56,20 @@
       {
         "ts": "never",
         "tsx": "never"
+      }
+    ],
+    "import-helpers/order-imports": [
+      "warn",
+      {
+        "newlinesBetween": "always",
+        "groups": [
+          ["/^react/", "module"],
+          "/assets/",
+          "/services/",
+          ["parent", "index"],
+          "sibling"
+        ],
+        "alphabetize": { "ignoreCase": true }
       }
     ]
   },

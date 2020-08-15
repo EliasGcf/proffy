@@ -2,9 +2,9 @@ import styled from 'styled-components';
 import { darken } from 'polished';
 import { Form as Unform } from '@unform/web';
 
-import { InputContainer } from '../../components/Input/styles';
-
 import backgroundAsset from '../../assets/images/background-asset.svg';
+
+import { InputContainer } from '../../components/Input/styles';
 
 export const Container = styled.div`
   height: 100vh;

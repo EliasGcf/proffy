@@ -1,8 +1,9 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { Form as Unform } from '@unform/web';
 
-import { InputContainer } from '../../components/Input/styles';
 import backgroundAsset from '../../assets/images/background-asset.svg';
+
+import { InputContainer } from '../../components/Input/styles';
 
 interface FormProps {
   isSubmitAvailable: boolean;

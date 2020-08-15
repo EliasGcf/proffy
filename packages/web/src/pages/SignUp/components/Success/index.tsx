@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { Container } from './styles';
 import { SuccessCheckIcon } from '../../../../assets/images/icons';
+
+import { Container } from './styles';
 
 const Success: React.FC = () => {
   return (
