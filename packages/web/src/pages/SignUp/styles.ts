@@ -69,41 +69,6 @@ export const Form = styled(Unform)<FormProps>`
   ${InputContainer} + ${InputContainer} + ${InputContainer} + ${InputContainer} {
     border-radius:  0 0 0.8rem 0.8rem;
   }
-
-  button[type='submit'] {
-    border: none;
-    margin-top: 4rem;
-    width: 100%;
-    background: ${({ theme }) => theme.colors.buttonNotAvailable};
-    cursor: not-allowed;
-    height: 5.6rem;
-    border-radius: 0.8rem;
-    font: 1.6rem Archivo;
-    color: ${({ theme }) => theme.colors.textComplement};
-    outline: none;
-
-    transition: background 0.3s;
-
-    &:hover {
-      ${({ isSubmitAvailable }) =>
-        isSubmitAvailable &&
-        css`
-          background: ${({ theme }) => theme.colors.secondaryDark};
-        `}
-    }
-
-    &:disabled {
-      background: ${({ theme }) => theme.colors.buttonNotAvailable};
-    }
-
-    ${({ isSubmitAvailable }) =>
-      isSubmitAvailable &&
-      css`
-        color: ${({ theme }) => theme.colors.buttonText};
-        background: ${({ theme }) => theme.colors.secondary};
-        cursor: pointer;
-      `}
-  }
 `;
 
 export const Info = styled.div`

@@ -7,11 +7,12 @@ import { Link } from 'react-router-dom';
 import { ProffyLogo } from '../../assets/images';
 import { PurpleHeartIcon } from '../../assets/images/icons';
 import Input from '../../components/Input';
-
+import Button from '../../components/Button';
 import CheckBox from './components/CheckBox';
 
-import { Container, Content, Info, Form, OptionsBlock, Footer } from './styles';
 import { useAuth } from '../../hooks/auth';
+
+import { Container, Content, Info, Form, OptionsBlock, Footer } from './styles';
 
 interface SignInFormData {
   email: string;
@@ -86,11 +87,7 @@ const SignIn: React.FC = () => {
       </Info>
 
       <Content>
-        <Form
-          isSubmitAvailable={submitAvailable}
-          ref={formRef}
-          onSubmit={handleSubmit}
-        >
+        <Form ref={formRef} onSubmit={handleSubmit}>
           <h1>Fazer Login</h1>
 
           <Input
@@ -120,9 +117,13 @@ const SignIn: React.FC = () => {
             <a href="/">Esqueci minha senha</a>
           </OptionsBlock>
 
-          <button disabled={loading || !submitAvailable} type="submit">
+          <Button
+            isLoading={loading}
+            disabled={loading || !submitAvailable}
+            type="submit"
+          >
             Entrar
-          </button>
+          </Button>
         </Form>
 
         <Footer>
