@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { Form as Unform } from '@unform/web';
 
 import backgroundAsset from '../../assets/images/background-asset.svg';
