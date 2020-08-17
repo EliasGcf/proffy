@@ -1,38 +1,35 @@
 import styled from 'styled-components';
 
-export const TextAreaContainer = styled.div`
-  position: relative;
+export const LabelContainer = styled.label`
+  display: flex;
+  flex-direction: column;
 
-  & + & {
-    margin-top: 1.4rem;
-  }
+  font: 1.4rem Poppins;
+  color: ${({ theme }) => theme.colors.textComplement};
 
-  label {
-    font-size: 1.4rem;
+  div {
+    span {
+      font: 1.2rem Poppins;
+      color: ${({ theme }) => theme.colors.textComplement};
+      margin-left: 1.6rem;
+    }
   }
 
   textarea {
-    width: 100%;
-    height: 16rem;
-    min-height: 8rem;
-    margin-top: 0.8rem;
-    border-radius: 0.8rem;
-    background: ${({ theme }) => theme.colors.inputBackground};
-    border: ${({ theme }) => `1px solid ${theme.colors.lineInWhite}`};
     outline: none;
+    background: ${({ theme }) => theme.colors.boxFooter};
+    border: 1px solid ${({ theme }) => theme.colors.lineInWhite};
+    color: ${({ theme }) => theme.colors.textBase};
+    border-radius: 0.8rem;
+    margin-top: 0.8rem;
+    padding: 1.6rem 2.4rem;
     resize: vertical;
-    padding: 1.2rem 1.6rem;
-    font: 1.6rem Archivo;
-  }
+    font: 1.6rem Poppins;
+    min-height: 8rem;
+    height: 23rem;
 
-  &:focus-within::after {
-    width: calc(100% - 3.2rem);
-    height: 2px;
-    content: '';
-    background: ${({ theme }) => theme.colors.primaryLight};
-    position: absolute;
-    left: 1.6rem;
-    right: 1.6rem;
-    bottom: 7px;
+    &::placeholder {
+      color: ${({ theme }) => theme.colors.inputPlaceholder};
+    }
   }
 `;

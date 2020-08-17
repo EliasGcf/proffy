@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { HeaderContent } from '../../components/PageHeader/styles';
 import { InputContainer } from '../../components/Input/styles';
 import { SelectContainer } from '../../components/Select/styles';
-import { TextAreaContainer } from '../../components/TextArea/styles';
+import { LabelContainer } from '../../components/TextArea/styles';
 
 export const Container = styled.div`
   width: 100vw;
@@ -48,7 +48,7 @@ export const Block = styled.fieldset`
 
   ${SelectContainer} + ${InputContainer},
   ${InputContainer} + ${InputContainer},
-  ${InputContainer} + ${TextAreaContainer}  {
+  ${InputContainer} + ${LabelContainer}  {
     margin-top: 2.4rem;
   }
 
