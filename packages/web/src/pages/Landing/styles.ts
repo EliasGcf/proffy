@@ -1,141 +1,203 @@
 import styled from 'styled-components';
+import { darken } from 'polished';
+
+import { ButtonContainer } from '../../components/Button/styles';
 
 export const Container = styled.div`
-  width: 100vw;
   height: 100vh;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  /* display: flex;
+  flex-direction: column;
+  align-items: center; */
 
-  color: ${({ theme }) => theme.colors.textInPrimary};
-  background: ${({ theme }) => theme.colors.primary};
+  background: ${({ theme }) => theme.colors.background};
 `;
 
-export const Content = styled.div`
-  width: 90vw;
-  max-width: 700px;
+export const TopContent = styled.div`
+  background: ${({ theme }) => theme.colors.primary};
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-  > img {
-    width: 100%;
+  @media (min-width: 900px) {
+    height: 70vh;
+  }
+`;
+
+export const Header = styled.header`
+  max-width: 116.8rem;
+  width: 100%;
+  padding: 2.4rem 2.4rem 0 2.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  > a {
+    text-decoration: none;
+
+    display: flex;
+    align-items: center;
+
+    img {
+      height: 4rem;
+      width: 4rem;
+      border-radius: 50%;
+    }
+
+    span {
+      font: 1.6rem Poppins;
+      color: ${({ theme }) => theme.colors.textInPrimary};
+      font-weight: 400;
+      margin-left: 1.6rem;
+    }
+
+    transition: opacity 0.3s;
+
+    &:hover {
+      opacity: 0.8;
+    }
   }
 
-  > span {
-    font-size: 1.4rem;
+  button {
+    border: none;
+    height: 4rem;
+    width: 4rem;
+    border-radius: 0.8rem;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    img {
-      margin-left: 0.8rem;
-    }
-  }
+    background: ${({ theme }) => theme.colors.primaryDark};
 
-  @media (min-width: 700px) {
-    max-width: 1100px;
+    transition: background 0.3s;
 
-    display: grid;
-    grid-template-rows: 350px 1fr;
-    grid-template-columns: 2fr 1fr 1fr;
-    grid-template-areas:
-      'logo hero hero'
-      'buttons buttons total';
-
-    > img {
-      grid-area: hero;
-      justify-self: end;
-    }
-
-    > span {
-      grid-area: total;
-      justify-self: end;
+    &:hover {
+      background: ${({ theme }) => darken(0.03, theme.colors.primaryDark)};
     }
   }
 `;
 
 export const LogoContainer = styled.div`
-  text-align: center;
-  margin-bottom: 3.2rem;
+  max-width: 116.8rem;
+  width: 100%;
+  padding: 0 2.4rem 5.6rem 2.4rem;
+  margin-top: 6.4rem;
+
+  div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    h1 {
+      color: ${({ theme }) => theme.colors.textInPrimary};
+      font-family: Poppins;
+      font-weight: 400;
+      max-width: 32rem;
+      text-align: center;
+    }
+  }
+
+  > svg {
+    width: 100%;
+  }
+
+  @media (min-width: 900px) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 0;
+    margin: auto 0;
+
+    div {
+      align-items: flex-start;
+      h1 {
+        text-align: left;
+      }
+    }
+
+    > svg {
+      width: initial;
+    }
+  }
+`;
+
+export const Footer = styled.footer`
+  max-width: 116.8rem;
+  width: 100%;
+  padding: 5.6rem 2.4rem 5.6rem 2.4rem;
+  margin: 0 auto;
+
+  @media (min-width: 900px) {
+    display: flex;
+    justify-content: space-between;
+    margin-top: auto;
+  }
+`;
+
+export const InfoContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
 
   h2 {
-    font-weight: 500;
-    font-size: 2.4rem;
-    line-height: 4.6rem;
-    margin-top: 0.8rem;
+    font: 2rem Poppins;
+    font-weight: 400;
+    strong {
+      display: block;
+    }
   }
 
-  img {
-    height: 10rem;
+  small {
+    max-width: 14rem;
+    font: 1.2rem Poppins;
+    color: ${({ theme }) => theme.colors.textComplement};
+    text-align: right;
+    svg {
+      margin-left: 0.8rem;
+    }
   }
 
-  @media (min-width: 700px) {
-    grid-area: logo;
-    align-self: center;
-    text-align: left;
-    margin: 0;
-
-    h2 {
-      text-align: initial;
-      font-size: 3.6rem;
-    }
-
-    img {
-      height: 100%;
-    }
+  @media (min-width: 900px) {
+    width: 48%;
+    align-items: center;
   }
 `;
 
 export const ButtonsContainer = styled.div`
   display: flex;
-  justify-content: center;
-  margin: 3.2rem 0;
+  margin-top: 2.4rem;
 
-  a {
-    width: 30rem;
-    height: 10.4rem;
-    border-radius: 0.8rem;
-
-    font: 700 2rem Archivo;
-
+  ${ButtonContainer} {
+    margin: 0;
     display: flex;
     align-items: center;
     justify-content: center;
+    background: ${({ theme }) => theme.colors.primary};
+    height: 10.4rem;
+    padding: 0 2.4rem;
 
-    text-decoration: none;
-    color: ${({ theme }) => theme.colors.buttonText};
+    font: 2.4rem Archivo;
+    font-weight: 700;
 
-    transition: background-color 0.3s;
-
-    img {
-      width: 4rem;
+    svg {
       margin-right: 2.4rem;
     }
 
-    &:first-child {
-      margin-right: 1.6rem;
-      background: ${({ theme }) => theme.colors.primaryLighter};
-
-      &:hover {
-        background: ${({ theme }) => theme.colors.primaryLight};
-      }
-    }
-
-    &:nth-child(2) {
-      background: ${({ theme }) => theme.colors.secondary};
-
-      &:hover {
-        background: ${({ theme }) => theme.colors.secondaryDark};
-      }
+    &:hover {
+      background: ${({ theme }) => theme.colors.primaryDark};
     }
   }
 
-  @media (min-width: 700px) {
-    grid-area: buttons;
-    justify-content: flex-start;
+  ${ButtonContainer} + ${ButtonContainer} {
+    background: ${({ theme }) => theme.colors.secondary};
+    margin-left: 1.6rem;
 
-    a {
-      font-size: 2.4rem;
+    &:hover {
+      background: ${({ theme }) => theme.colors.secondaryDark};
     }
+  }
+
+  @media (min-width: 900px) {
+    margin-top: 0;
+    width: 46%;
   }
 `;
