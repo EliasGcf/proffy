@@ -4,7 +4,6 @@ import React, {
   useCallback,
   useState,
   useEffect,
-  FocusEvent,
 } from 'react';
 import { useField } from '@unform/core';
 
@@ -19,7 +18,7 @@ const Input: React.FC<InputProps> = ({
   name,
   placeholder,
   disabled,
-  onBlur,
+  onChange,
   ...rest
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -41,8 +40,8 @@ const Input: React.FC<InputProps> = ({
   }, [fieldName, registerField]);
 
   const handleOnBlur = useCallback(
-    (e: FocusEvent<HTMLInputElement>) => {
-      onBlur && onBlur(e);
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      onChange && onChange(e);
 
       if (inputRef.current?.value) {
         setIsField(true);
@@ -50,7 +49,7 @@ const Input: React.FC<InputProps> = ({
         setIsField(false);
       }
     },
-    [onBlur],
+    [onChange],
   );
 
   return (
@@ -60,7 +59,7 @@ const Input: React.FC<InputProps> = ({
       </Label>
       <SInput
         isField={isField}
-        onBlur={handleOnBlur}
+        onChange={handleOnBlur}
         onFocus={clearError}
         ref={inputRef}
         type="text"
