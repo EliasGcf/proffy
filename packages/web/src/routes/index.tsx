@@ -6,6 +6,7 @@ import Landing from '../pages/Landing';
 import TeacherList from '../pages/TeacherList';
 import TeacherForm from '../pages/TeacherForm';
 import SignUp from '../pages/SignUp';
+import Profile from '../pages/Profile';
 
 import Route from './Route';
 
@@ -15,6 +16,7 @@ const Routes: React.FC = () => {
       <Route path="/" exact component={SignIn} />
       <Route path="/signup" component={SignUp} />
       <Route path="/landing" isPrivate component={Landing} />
+      <Route path="/profile" isPrivate component={Profile} />
       <Route path="/study" isPrivate component={TeacherList} />
       <Route path="/give-classes" isPrivate component={TeacherForm} />
     </Switch>

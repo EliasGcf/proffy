@@ -43,7 +43,7 @@ const Landing: React.FC = () => {
     <Container>
       <TopContent>
         <Header>
-          <Link to="/">
+          <Link to="/profile">
             <img
               src={
                 user.avatar ||
