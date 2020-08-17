@@ -64,6 +64,8 @@ export const Header = styled.header`
     width: 4rem;
     border-radius: 0.8rem;
 
+    outline: none;
+
     display: flex;
     align-items: center;
     justify-content: center;
@@ -151,6 +153,8 @@ export const InfoContainer = styled.div`
     font: 1.2rem Poppins;
     color: ${({ theme }) => theme.colors.textComplement};
     text-align: right;
+    line-height: 2.6rem;
+
     svg {
       margin-left: 0.8rem;
     }

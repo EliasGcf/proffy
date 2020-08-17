@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 
 import {
@@ -12,6 +12,7 @@ import { ProffyLogo, LandingImg } from '../../assets/images';
 import api from '../../services/api';
 
 import Button from '../../components/Button';
+import { useAuth } from '../../hooks/auth';
 
 import {
   Container,
@@ -26,6 +27,12 @@ import {
 const Landing: React.FC = () => {
   const [totalConnections, setTotalConnections] = useState(0);
 
+  const { signOut, user } = useAuth();
+
+  const handleSignOut = useCallback(() => {
+    signOut();
+  }, [signOut]);
+
   useEffect(() => {
     api.get('connections').then(response => {
       setTotalConnections(response.data.total);
@@ -37,11 +44,17 @@ const Landing: React.FC = () => {
       <TopContent>
         <Header>
           <Link to="/">
-            <img src="https://github.com/eliasgcf.png" alt="Profile" />
-            <span>Elias Gabriel</span>
+            <img
+              src={
+                user.avatar ||
+                'https://api.adorable.io/avatars/40/abott@adorable.png'
+              }
+              alt="Profile"
+            />
+            <span>{user.name}</span>
           </Link>
 
-          <button type="button">
+          <button onClick={handleSignOut} type="button">
             <SignOutIcon />
           </button>
         </Header>
