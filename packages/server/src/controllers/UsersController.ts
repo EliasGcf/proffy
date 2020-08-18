@@ -7,7 +7,15 @@ import { AppError } from '../errors/AppError';
 
 export class UsersController {
   public async create(req: Request, res: Response): Promise<Response> {
-    const { name, email, password, whatsapp, bio, avatar } = req.body;
+    const {
+      first_name,
+      last_name,
+      email,
+      password,
+      whatsapp,
+      bio,
+      avatar,
+    } = req.body;
     const usersRepository = getRepository(User);
 
     const userExists = await usersRepository.findOne({ where: { email } });
@@ -19,7 +27,8 @@ export class UsersController {
     const hashedPassword = await hash(password, 8);
 
     const user = usersRepository.create({
-      name,
+      first_name,
+      last_name,
       email,
       password: hashedPassword,
       whatsapp,
