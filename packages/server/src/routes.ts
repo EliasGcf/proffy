@@ -26,5 +26,6 @@ routes.post('/sessions', sessionsController.create);
 routes.use(ensureAuthenticated);
 
 routes.post('/classes', classesController.create);
+routes.get('/users/me', usersController.index);
 
 export default routes;

@@ -1,5 +1,6 @@
 import { Response, Request } from 'express';
 import { getRepository } from 'typeorm';
+import { classToClass } from 'class-transformer';
 import { hash } from 'bcryptjs';
 
 import { User } from '../entities/User';
@@ -41,5 +42,21 @@ export class UsersController {
     delete user.password;
 
     return res.status(201).json(user);
+  }
+
+  public async index(req: Request, res: Response): Promise<Response> {
+    const { id } = req.user;
+
+    const usersRepository = getRepository(User);
+
+    const user = await usersRepository.findOne(id, {
+      relations: ['classes', 'classes.class_schedule'],
+    });
+
+    if (!user) {
+      throw new AppError('User not found.');
+    }
+
+    return res.json(classToClass(user));
   }
 }
