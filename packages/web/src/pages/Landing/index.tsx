@@ -51,7 +51,7 @@ const Landing: React.FC = () => {
               }
               alt="Profile"
             />
-            <span>{user.name}</span>
+            <span>{user.first_name}</span>
           </Link>
 
           <button onClick={handleSignOut} type="button">

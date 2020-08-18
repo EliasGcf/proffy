@@ -25,7 +25,8 @@ const Profile: React.FC = () => {
   const { user } = useAuth();
   const initialFormData = useMemo(() => {
     return {
-      name: user.name,
+      first_name: user.first_name,
+      last_name: user.last_name,
       email: user.email,
       whatsapp: user.whatsapp,
       bio: user.bio,
@@ -47,7 +48,7 @@ const Profile: React.FC = () => {
           }
           alt="Profile"
         />
-        <h1>{user.name}</h1>
+        <h1>{user.first_name}</h1>
         {/* <span>Fisica</span> */}
       </Banner>
 
@@ -56,8 +57,8 @@ const Profile: React.FC = () => {
           <legend>Seus dados</legend>
 
           <InputGroup>
-            <InputWithLabel label="Nome" name="name" />
-            <InputWithLabel label="Sobrenome" name="lastname" />
+            <InputWithLabel label="Nome" name="first_name" />
+            <InputWithLabel label="Sobrenome" name="last_name" />
           </InputGroup>
 
           <InputGroup>

@@ -135,7 +135,7 @@ const SignUp: React.FC = () => {
             disabled={loading || !submitAvailable}
             type="submit"
           >
-            Entrar
+            Concluir cadastro
           </Button>
         </Form>
       </Content>
