@@ -4,6 +4,7 @@ import { getRepository } from 'typeorm';
 import { classToClass } from 'class-transformer';
 import { convertHoursToMinutes } from '../utils/convertHourtToMinuts';
 import { Class } from '../entities/Class';
+import { AppError } from '../errors/AppError';
 
 interface IScheduleItem {
   week_day: number;
@@ -67,5 +68,26 @@ export class ClassesController {
     await classesRepository.save(newClass);
 
     return res.status(201).json(newClass);
+  }
+
+  async update(req: Request, res: Response): Promise<Response> {
+    const { subject, cost, class_schedule } = req.body;
+    const { id } = req.params;
+
+    const classesRepository = getRepository(Class);
+
+    const findClass = await classesRepository.findOne(id, {
+      relations: ['class_schedule'],
+    });
+
+    if (!findClass) {
+      throw new AppError('Class not found');
+    }
+
+    Object.assign(findClass, { subject, cost, class_schedule });
+
+    await classesRepository.save(findClass);
+
+    return res.json(findClass);
   }
 }
