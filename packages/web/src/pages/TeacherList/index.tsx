@@ -5,7 +5,7 @@ import api from '../../services/api';
 import PageHeader from '../../components/PageHeader';
 import TeacherItem, { Teacher } from '../../components/TeacherItem';
 import Input from '../../components/Input';
-import Select from '../../components/Select';
+// import Select from '../../components/Select';
 
 import { Container, FormSearchTeachers } from './styles';
 
@@ -37,7 +37,7 @@ const TeacherList: React.FC = () => {
     <Container>
       <PageHeader title="Estes são os Proffys disponívies.">
         <FormSearchTeachers onSubmit={searchTeachers}>
-          <Select
+          {/* <Select
             name="subject"
             label="Matéria"
             value={subject}
@@ -48,9 +48,9 @@ const TeacherList: React.FC = () => {
               { value: 'Fisica', label: 'Fisica' },
               { value: 'Portugues', label: 'Portugues' },
             ]}
-          />
+          /> */}
 
-          <Select
+          {/* <Select
             name="week-day"
             label="Dia da Semana"
             value={week_day}
@@ -64,7 +64,7 @@ const TeacherList: React.FC = () => {
               { value: '5', label: 'Sexta-Feira' },
               { value: '6', label: 'Sabado' },
             ]}
-          />
+          /> */}
 
           <Input
             type="time"

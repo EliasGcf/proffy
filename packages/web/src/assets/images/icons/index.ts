@@ -5,3 +5,4 @@ export { ReactComponent as SuccessCheckIcon } from './success-check-icon.svg';
 export { ReactComponent as SignOutIcon } from './signout.svg';
 export { ReactComponent as StudyIcon } from './study.svg';
 export { ReactComponent as GiveClassesIcon } from './give-classes.svg';
+export { ReactComponent as WarningIcon } from './warning.svg';
