@@ -16,8 +16,8 @@ import { Container, Content, Form, Info } from './styles';
 import Success from './components/Success';
 
 interface SignUpFormData {
-  name: string;
-  lastname: string;
+  first_name: string;
+  last_name: string;
   email: string;
   password: string;
 }
@@ -31,7 +31,7 @@ const SignUp: React.FC = () => {
   const handleInputOnChange = useCallback(() => {
     const data = formRef.current?.getData() as SignUpFormData;
 
-    if (data?.name && data?.lastname && data?.email && data?.password) {
+    if (data?.first_name && data?.last_name && data?.email && data?.password) {
       setSubmitAvailable(true);
       return;
     }
@@ -44,8 +44,8 @@ const SignUp: React.FC = () => {
       formRef.current?.setErrors({});
 
       const schema = Yup.object().shape({
-        name: Yup.string().required('Nome é obrigatório'),
-        lastname: Yup.string().required('Sobre nome é obrigatório'),
+        first_name: Yup.string().required('Nome é obrigatório'),
+        last_name: Yup.string().required('Sobre nome é obrigatório'),
         email: Yup.string()
           .email('Digite um e-mail válido')
           .required('E-mail é obrigatório'),
@@ -56,10 +56,11 @@ const SignUp: React.FC = () => {
 
       setLoading(true);
 
-      const { name, lastname, email, password } = data;
+      const { first_name, last_name, email, password } = data;
 
       await api.post('users', {
-        name: `${name} ${lastname}`,
+        first_name,
+        last_name,
         email,
         password,
       });
@@ -102,14 +103,14 @@ const SignUp: React.FC = () => {
             <br /> para começar.
           </span>
           <Input
-            name="name"
+            name="first_name"
             placeholder="Nome"
             autoFocus
             disabled={loading}
             onChange={handleInputOnChange}
           />
           <Input
-            name="lastname"
+            name="last_name"
             placeholder="Sobrenome"
             disabled={loading}
             onChange={handleInputOnChange}
