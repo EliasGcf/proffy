@@ -16,7 +16,7 @@ class ClassScheduleController {
       throw new AppError('Schedule not found');
     }
 
-    await classScheduleRepository.delete(schedule);
+    await classScheduleRepository.remove(schedule);
 
     return res.status(200).json({});
   }
