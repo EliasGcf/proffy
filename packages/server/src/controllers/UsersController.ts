@@ -59,4 +59,22 @@ export class UsersController {
 
     return res.json(classToClass(user));
   }
+
+  public async update(req: Request, res: Response): Promise<Response> {
+    const { first_name, last_name, email, whatsapp, bio } = req.body;
+
+    const usersRepository = getRepository(User);
+
+    const user = await usersRepository.findOne(req.user.id);
+
+    if (!user) {
+      throw new AppError('User not found');
+    }
+
+    Object.assign(user, { first_name, last_name, email, whatsapp, bio });
+
+    await usersRepository.save(user);
+
+    return res.json(user);
+  }
 }

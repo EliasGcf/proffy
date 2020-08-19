@@ -28,5 +28,6 @@ routes.use(ensureAuthenticated);
 routes.post('/classes', classesController.create);
 routes.get('/users/me', usersController.index);
 routes.put('/classes/:id', classesController.update);
+routes.put('/users', usersController.update);
 
 export default routes;
