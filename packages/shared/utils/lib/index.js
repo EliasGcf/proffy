@@ -1,3 +1,4 @@
 const { getValidationErrors } = require('./getValidationErrors');
+const { formatPrice } = require('./format');
 
-module.exports = { getValidationErrors };
+module.exports = { getValidationErrors, formatPrice };
