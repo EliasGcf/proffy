@@ -5,8 +5,12 @@ import React, {
   useState,
   useEffect,
 } from 'react';
-import { FormHandles } from '@unform/core';
-import { formatPrice } from '@proffy/utils';
+import { FormHandles, Scope } from '@unform/core';
+import {
+  formatPrice,
+  convertMinutsToHours,
+  convertHoursToMinutes,
+} from '@proffy/utils';
 
 import { WarningIcon } from '../../assets/images/icons';
 
@@ -29,22 +33,43 @@ import {
 } from './styles';
 import Schedule from './components/Schedule';
 
+export interface ClassSchedule {
+  id: string;
+  week_day: number;
+  from: number;
+  from_formatted: string;
+
+  to: number;
+  to_formatted: string;
+}
+
 interface Class {
   id: string;
   cost: string;
   cost_formatted: string;
   subject: string;
-  class_schedule: Array<{
-    id: string;
-    week_day: number;
-    from: number;
-    to: number;
-  }>;
+  class_schedule: ClassSchedule[];
+}
+
+interface FormData {
+  first_name: string;
+  last_name: string;
+  email: string;
+  whatsapp: string;
+  bio: string;
+  class: {
+    subject: number;
+    cost: string;
+    class_schedule: Array<{
+      week_day: string;
+      from: string;
+      to: string;
+    }>;
+  };
 }
 
 const Profile: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
-  const scheduleForm = useRef<FormHandles>(null);
   const [classes, setClasses] = useState<Class[]>([]);
   const [selectedSubjectValue, setSelectedSubjectValue] = useState<
     null | number
@@ -57,6 +82,11 @@ const Profile: React.FC = () => {
       const data = response.data.classes.map(classOption => ({
         ...classOption,
         cost_formatted: formatPrice(classOption.cost),
+        class_schedule: classOption.class_schedule.map(classSchedule => ({
+          ...classSchedule,
+          to_formatted: convertMinutsToHours(classSchedule.to),
+          from_formatted: convertMinutsToHours(classSchedule.from),
+        })),
       }));
 
       setClasses(data);
@@ -80,11 +110,6 @@ const Profile: React.FC = () => {
         label: classOption.subject,
       }));
 
-      formRef.current?.setData({
-        subject: options[0],
-        cost: classes[0]?.cost_formatted,
-      });
-      setSelectedSubjectValue(0);
       return options;
     }
 
@@ -92,18 +117,56 @@ const Profile: React.FC = () => {
   }, [classes]);
 
   const handleSubjectSelectChange = useCallback(
-    option => {
-      formRef.current?.setFieldValue(
-        'cost',
-        classes[option?.value]?.cost_formatted,
-      );
+    (option: any) => {
+      formRef.current?.setData({
+        class: {
+          cost: classes[option?.value]?.cost,
+        },
+      });
+
+      setSelectedSubjectValue(option?.value);
     },
     [classes],
   );
 
-  const handleSubmit = useCallback((data: any) => {
-    console.log(data);
-  }, []);
+  const handleSubmit = useCallback(
+    async (data: FormData) => {
+      if (selectedSubjectValue !== null) {
+        const classData = {
+          ...data.class,
+          subject: subjectOptions[data.class.subject].label,
+          class_schedule: classes[selectedSubjectValue].class_schedule.map(
+            classSchedule => ({
+              ...classSchedule,
+              ...data.class.class_schedule[selectedSubjectValue],
+              to: convertHoursToMinutes(
+                data.class.class_schedule[selectedSubjectValue].to,
+              ),
+              from: convertHoursToMinutes(
+                data.class.class_schedule[selectedSubjectValue].from,
+              ),
+            }),
+          ),
+        };
+
+        console.log(classData.class_schedule);
+
+        // const response = await api.put(
+        //   `/classes/${classes[selectedSubjectValue].id}`,
+        //   classData,
+        // );
+
+        // setClasses(
+        //   classes.map(classOption =>
+        //     classOption.id === classes[selectedSubjectValue].id
+        //       ? response.data
+        //       : classOption,
+        //   ),
+        // );
+      }
+    },
+    [classes, selectedSubjectValue, subjectOptions],
+  );
 
   return (
     <Container>
@@ -117,7 +180,9 @@ const Profile: React.FC = () => {
           alt="Profile"
         />
         <h1>{user.first_name}</h1>
-        {/* <span>Fisica</span> */}
+        {selectedSubjectValue !== null && (
+          <span>{subjectOptions[selectedSubjectValue].label}</span>
+        )}
       </Banner>
 
       <Form initialData={initialFormData} ref={formRef} onSubmit={handleSubmit}>
@@ -145,33 +210,39 @@ const Profile: React.FC = () => {
           />
         </Block>
 
-        <Block>
-          <legend>Sobre a aula</legend>
-          <InputGroup>
-            <Select
-              name="subject"
-              label="Matéria"
-              placeholder="Selecione uma matéria"
-              options={subjectOptions}
-              noOptionsMessage={() => 'Nenhuma opção disponível'}
-              onChange={handleSubjectSelectChange}
-            />
-            <InputWithLabel label="Custo da sua hora por aula" name="cost" />
-          </InputGroup>
-        </Block>
-
-        {selectedSubjectValue !== null && (
+        <Scope path="class">
           <Block>
-            <legend>
-              Horários disponívies
-              <button type="button">+ Novo horário</button>
-            </legend>
-
-            {classes[selectedSubjectValue].class_schedule.map(schedule => (
-              <Schedule key={schedule.id} schedule={schedule} />
-            ))}
+            <legend>Sobre a aula</legend>
+            <InputGroup>
+              <Select
+                name="subject"
+                label="Matéria"
+                placeholder="Selecione uma matéria"
+                options={subjectOptions}
+                noOptionsMessage={() => 'Nenhuma opção disponível'}
+                onChange={handleSubjectSelectChange}
+              />
+              <InputWithLabel label="Custo da sua hora por aula" name="cost" />
+            </InputGroup>
           </Block>
-        )}
+
+          {selectedSubjectValue !== null && (
+            <Block>
+              <legend>
+                Horários disponívies
+                <button type="button">+ Novo horário</button>
+              </legend>
+
+              {classes[selectedSubjectValue].class_schedule.map(
+                (schedule, index) => (
+                  <Scope path={`class_schedule[${index}]`} key={schedule.id}>
+                    <Schedule schedule={schedule} />
+                  </Scope>
+                ),
+              )}
+            </Block>
+          )}
+        </Scope>
       </Form>
 
       <SubmitContainer>

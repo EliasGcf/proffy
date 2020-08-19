@@ -1,10 +1,9 @@
 import styled from 'styled-components';
-import { Form as Unform } from '@unform/web';
 
 import { LabelContainer as LabelInputWithLabelContainer } from '../../../../components/InputWithLabel/styles';
 import { LabelContainer as LabelSimpleSelectContainer } from '../../../../components/SimpleSelect/styles';
 
-export const FormContainer = styled(Unform)`
+export const ScheduleContainer = styled.div`
   & + & {
     margin-top: 2.4rem;
   }

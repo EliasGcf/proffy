@@ -15,9 +15,16 @@ interface Props extends SelectProps<OptionTypeBase> {
   label?: string;
 }
 
-const SimpleSelect: React.FC<Props> = ({ name, label, ...rest }) => {
+const SimpleSelect: React.FC<Props> = ({
+  name,
+  label,
+  defaultValue: RSdefaultValue,
+  ...rest
+}) => {
   const selectRef = useRef<Select<OptionTypeBase>>(null);
-  const { fieldName, defaultValue, registerField } = useField(name);
+  const { fieldName, defaultValue = RSdefaultValue, registerField } = useField(
+    name,
+  );
   const appTheme = useTheme();
 
   const selectStyles = useMemo<SelectStyles>(() => {
@@ -76,8 +83,8 @@ const SimpleSelect: React.FC<Props> = ({ name, label, ...rest }) => {
         }
         return ref.state.value.value;
       },
-      setValue: (ref: Select<OptionTypeBase>, value: any) => {
-        ref.select.setValue(value, 'set-value');
+      setValue: (ref: any, value: any) => {
+        ref.state.value = value;
       },
       clearValue: (ref: Select<OptionTypeBase>) => {
         ref.select.clearValue();
