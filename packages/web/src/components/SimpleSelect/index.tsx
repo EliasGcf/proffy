@@ -76,11 +76,11 @@ const SimpleSelect: React.FC<Props> = ({ name, label, ...rest }) => {
         }
         return ref.state.value.value;
       },
-      setValue: (ref: any, value: any) => {
-        ref.select.state.value = value;
+      setValue: (ref: Select<OptionTypeBase>, value: any) => {
+        ref.select.setValue(value, 'set-value');
       },
-      clearValue: (ref: any) => {
-        ref.select.select.clearValue();
+      clearValue: (ref: Select<OptionTypeBase>) => {
+        ref.select.clearValue();
       },
     });
   }, [fieldName, registerField, rest.isMulti]);

@@ -79,6 +79,19 @@ export const Block = styled.fieldset`
     border-bottom: ${({ theme }) => `1px solid ${theme.colors.lineInWhite}`};
     padding-bottom: 1.6rem;
     margin-bottom: 2.4rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    button {
+      background: none;
+      border: none;
+      outline: none;
+      font: 1.6rem Archivo;
+      font-weight: 600;
+      color: ${({ theme }) => theme.colors.primary};
+    }
   }
 `;
 

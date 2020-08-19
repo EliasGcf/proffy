@@ -1,7 +1,16 @@
-import React, { useCallback, useRef, useMemo } from 'react';
+import React, {
+  useCallback,
+  useRef,
+  useMemo,
+  useState,
+  useEffect,
+} from 'react';
 import { FormHandles } from '@unform/core';
+import { formatPrice } from '@proffy/utils';
 
 import { WarningIcon } from '../../assets/images/icons';
+
+import api from '../../services/api';
 
 import Header from '../../components/Header';
 import InputWithLabel from '../../components/InputWithLabel';
@@ -18,11 +27,42 @@ import {
   Block,
   SubmitContainer,
 } from './styles';
+import Schedule from './components/Schedule';
+
+interface Class {
+  id: string;
+  cost: string;
+  cost_formatted: string;
+  subject: string;
+  class_schedule: Array<{
+    id: string;
+    week_day: number;
+    from: number;
+    to: number;
+  }>;
+}
 
 const Profile: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
+  const scheduleForm = useRef<FormHandles>(null);
+  const [classes, setClasses] = useState<Class[]>([]);
+  const [selectedSubjectValue, setSelectedSubjectValue] = useState<
+    null | number
+  >(null);
 
   const { user } = useAuth();
+
+  useEffect(() => {
+    api.get<{ classes: Class[] }>('/users/me').then(response => {
+      const data = response.data.classes.map(classOption => ({
+        ...classOption,
+        cost_formatted: formatPrice(classOption.cost),
+      }));
+
+      setClasses(data);
+    });
+  }, []);
+
   const initialFormData = useMemo(() => {
     return {
       first_name: user.first_name,
@@ -32,6 +72,34 @@ const Profile: React.FC = () => {
       bio: user.bio,
     };
   }, [user]);
+
+  const subjectOptions = useMemo(() => {
+    if (classes.length !== 0) {
+      const options = classes.map((classOption, index) => ({
+        value: index,
+        label: classOption.subject,
+      }));
+
+      formRef.current?.setData({
+        subject: options[0],
+        cost: classes[0]?.cost_formatted,
+      });
+      setSelectedSubjectValue(0);
+      return options;
+    }
+
+    return [];
+  }, [classes]);
+
+  const handleSubjectSelectChange = useCallback(
+    option => {
+      formRef.current?.setFieldValue(
+        'cost',
+        classes[option?.value]?.cost_formatted,
+      );
+    },
+    [classes],
+  );
 
   const handleSubmit = useCallback((data: any) => {
     console.log(data);
@@ -84,11 +152,26 @@ const Profile: React.FC = () => {
               name="subject"
               label="Matéria"
               placeholder="Selecione uma matéria"
+              options={subjectOptions}
               noOptionsMessage={() => 'Nenhuma opção disponível'}
+              onChange={handleSubjectSelectChange}
             />
             <InputWithLabel label="Custo da sua hora por aula" name="cost" />
           </InputGroup>
         </Block>
+
+        {selectedSubjectValue !== null && (
+          <Block>
+            <legend>
+              Horários disponívies
+              <button type="button">+ Novo horário</button>
+            </legend>
+
+            {classes[selectedSubjectValue].class_schedule.map(schedule => (
+              <Schedule key={schedule.id} schedule={schedule} />
+            ))}
+          </Block>
+        )}
       </Form>
 
       <SubmitContainer>
