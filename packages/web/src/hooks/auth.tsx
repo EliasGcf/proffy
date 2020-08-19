@@ -6,7 +6,7 @@ interface User {
   id: string;
   first_name: string;
   last_name: string;
-  avatar: string;
+  avatar?: string;
   bio: string;
   email: string;
   whatsapp: string;
@@ -27,7 +27,7 @@ interface AuthContextData {
   signOut(): void;
   setIsRememberMe(isRememberMe: boolean): void;
   getIsRememberMe(): boolean;
-  // updateUser(user: User): void;
+  updateUser(user: User): void;
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
@@ -79,6 +79,18 @@ const AuthProvider: React.FC = ({ children }) => {
     setData({} as AuthState);
   }, [storage]);
 
+  const updateUser = useCallback(
+    (user: User) => {
+      storage.setItem('@Proffy:user', JSON.stringify(user));
+
+      setData({
+        token: data.token,
+        user,
+      });
+    },
+    [storage, data.token],
+  );
+
   const setIsRememberMe = useCallback(isRememberMe => {
     if (!isRememberMe) {
       localStorage.setItem('@Proffy:remember', JSON.stringify(false));
@@ -105,6 +117,7 @@ const AuthProvider: React.FC = ({ children }) => {
         user: data.user,
         signIn,
         signOut,
+        updateUser,
         setIsRememberMe,
         getIsRememberMe,
       }}

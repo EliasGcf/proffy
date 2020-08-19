@@ -76,7 +76,7 @@ const Profile: React.FC = () => {
     null | number
   >(null);
 
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
 
   useEffect(() => {
     api.get<{ classes: Class[] }>('/users/me').then(response => {
@@ -133,37 +133,58 @@ const Profile: React.FC = () => {
 
   const handleSubmit = useCallback(
     async (data: FormData) => {
-      if (selectedSubjectValue !== null) {
-        const classData = {
-          ...data.class,
-          subject: subjectOptions[data.class.subject].label,
-          class_schedule: data.class.class_schedule.map(
-            (classSchedule, index) => ({
-              ...classes[selectedSubjectValue].class_schedule[index],
-              ...classSchedule,
-              from: convertHoursToMinutes(classSchedule.from),
-              to: convertHoursToMinutes(classSchedule.to),
-            }),
-          ),
+      try {
+        setLoading(true);
+
+        const userData = {
+          first_name: data.first_name,
+          last_name: data.last_name,
+          email: data.email,
+          whatsapp: data.whatsapp,
+          bio: data.bio,
         };
 
-        setLoading(true);
-        const response = await api.put(
-          `/classes/${classes[selectedSubjectValue].id}`,
-          classData,
-        );
+        const userResponse = await api.put('/users', userData);
 
-        setClasses(
-          classes.map(classOption =>
-            classOption.id === classes[selectedSubjectValue].id
-              ? response.data
-              : classOption,
-          ),
-        );
+        updateUser(userResponse.data);
+
+        if (selectedSubjectValue !== null) {
+          const classData = {
+            ...data.class,
+            subject: subjectOptions[data.class.subject].label,
+            class_schedule: data.class.class_schedule.map(
+              (classSchedule, index) => ({
+                ...classes[selectedSubjectValue].class_schedule[index],
+                ...classSchedule,
+                from: convertHoursToMinutes(classSchedule.from),
+                to: convertHoursToMinutes(classSchedule.to),
+              }),
+            ),
+          };
+
+          const classResponse = await api.put(
+            `/classes/${classes[selectedSubjectValue].id}`,
+            classData,
+          );
+
+          setClasses(
+            classes.map(classOption =>
+              classOption.id === classes[selectedSubjectValue].id
+                ? classResponse.data
+                : classOption,
+            ),
+          );
+        }
+      } catch (err) {
+        // eslint-disable-next-line no-alert
+        alert('Não foi possivel salvar o cadastro, tente novamente mais tarde');
+      } finally {
+        // eslint-disable-next-line no-alert
+        alert('Cadastro atualizado com sucesso!');
         setLoading(false);
       }
     },
-    [classes, selectedSubjectValue, subjectOptions],
+    [classes, selectedSubjectValue, subjectOptions, updateUser],
   );
 
   return (
