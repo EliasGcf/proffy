@@ -8,9 +8,10 @@ import { ScheduleContainer, DeleteContainer, Divisor } from './styles';
 
 interface ScheduleProps {
   schedule: ClassSchedule;
+  formPath: string;
 }
 
-const Schedule: React.FC<ScheduleProps> = ({ schedule }) => {
+const Schedule: React.FC<ScheduleProps> = ({ schedule, formPath }) => {
   const weekDayOptions = useMemo(() => {
     return [
       { value: 0, label: 'Domingo' },

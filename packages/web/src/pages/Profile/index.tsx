@@ -71,6 +71,7 @@ interface FormData {
 const Profile: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const [classes, setClasses] = useState<Class[]>([]);
+  const [loading, setLoading] = useState(true);
   const [selectedSubjectValue, setSelectedSubjectValue] = useState<
     null | number
   >(null);
@@ -89,6 +90,7 @@ const Profile: React.FC = () => {
         })),
       }));
 
+      setLoading(false);
       setClasses(data);
     });
   }, []);
@@ -135,34 +137,30 @@ const Profile: React.FC = () => {
         const classData = {
           ...data.class,
           subject: subjectOptions[data.class.subject].label,
-          class_schedule: classes[selectedSubjectValue].class_schedule.map(
-            classSchedule => ({
+          class_schedule: data.class.class_schedule.map(
+            (classSchedule, index) => ({
+              ...classes[selectedSubjectValue].class_schedule[index],
               ...classSchedule,
-              ...data.class.class_schedule[selectedSubjectValue],
-              to: convertHoursToMinutes(
-                data.class.class_schedule[selectedSubjectValue].to,
-              ),
-              from: convertHoursToMinutes(
-                data.class.class_schedule[selectedSubjectValue].from,
-              ),
+              from: convertHoursToMinutes(classSchedule.from),
+              to: convertHoursToMinutes(classSchedule.to),
             }),
           ),
         };
 
-        console.log(classData.class_schedule);
+        setLoading(true);
+        const response = await api.put(
+          `/classes/${classes[selectedSubjectValue].id}`,
+          classData,
+        );
 
-        // const response = await api.put(
-        //   `/classes/${classes[selectedSubjectValue].id}`,
-        //   classData,
-        // );
-
-        // setClasses(
-        //   classes.map(classOption =>
-        //     classOption.id === classes[selectedSubjectValue].id
-        //       ? response.data
-        //       : classOption,
-        //   ),
-        // );
+        setClasses(
+          classes.map(classOption =>
+            classOption.id === classes[selectedSubjectValue].id
+              ? response.data
+              : classOption,
+          ),
+        );
+        setLoading(false);
       }
     },
     [classes, selectedSubjectValue, subjectOptions],
@@ -236,7 +234,10 @@ const Profile: React.FC = () => {
               {classes[selectedSubjectValue].class_schedule.map(
                 (schedule, index) => (
                   <Scope path={`class_schedule[${index}]`} key={schedule.id}>
-                    <Schedule schedule={schedule} />
+                    <Schedule
+                      formPath={`class_schedule[${index}]`}
+                      schedule={schedule}
+                    />
                   </Scope>
                 ),
               )}
@@ -253,7 +254,11 @@ const Profile: React.FC = () => {
             <span>Preencha todos os dados corretamente.</span>
           </p>
         </div>
-        <Button onClick={() => formRef.current?.submitForm()}>
+        <Button
+          isLoading={loading}
+          disabled={loading}
+          onClick={() => formRef.current?.submitForm()}
+        >
           Salvar cadastro
         </Button>
       </SubmitContainer>
