@@ -1,4 +1,6 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useCallback } from 'react';
+
+import api from '../../../../services/api';
 
 import SimpleSelect from '../../../../components/SimpleSelect';
 import InputWithLabel from '../../../../components/InputWithLabel';
@@ -7,11 +9,11 @@ import { ClassSchedule } from '../../index';
 import { ScheduleContainer, DeleteContainer, Divisor } from './styles';
 
 interface ScheduleProps {
-  schedule: ClassSchedule;
-  formPath: string;
+  schedule?: ClassSchedule;
+  removeSchedule?: (id: string) => void;
 }
 
-const Schedule: React.FC<ScheduleProps> = ({ schedule, formPath }) => {
+const Schedule: React.FC<ScheduleProps> = ({ schedule, removeSchedule }) => {
   const weekDayOptions = useMemo(() => {
     return [
       { value: 0, label: 'Domingo' },
@@ -24,31 +26,41 @@ const Schedule: React.FC<ScheduleProps> = ({ schedule, formPath }) => {
     ];
   }, []);
 
+  const handleDeleteSchedule = useCallback(async () => {
+    if (schedule) {
+      await api.delete(`/class-schedule/${schedule.id}`);
+      removeSchedule && removeSchedule(schedule.id);
+    }
+  }, [removeSchedule, schedule]);
+
   return (
     <>
       <ScheduleContainer>
         <SimpleSelect
           name="week_day"
           label="Dia da semana"
+          placeholder="Selecione um dia da semana"
           options={weekDayOptions}
-          defaultValue={weekDayOptions[schedule.week_day]}
+          defaultValue={schedule ? weekDayOptions[schedule.week_day] : null}
         />
         <InputWithLabel
           name="from"
           label="Das"
-          defaultValue={schedule.from_formatted}
+          defaultValue={schedule?.from_formatted}
           type="time"
         />
         <InputWithLabel
           name="to"
           label="Até"
-          defaultValue={schedule.to_formatted}
+          defaultValue={schedule?.to_formatted}
           type="time"
         />
       </ScheduleContainer>
       <DeleteContainer>
         <Divisor />
-        <button type="button">Excluir horário</button>
+        <button onClick={handleDeleteSchedule} type="button">
+          Excluir horário
+        </button>
         <Divisor />
       </DeleteContainer>
     </>

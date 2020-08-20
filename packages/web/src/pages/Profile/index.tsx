@@ -60,10 +60,16 @@ interface FormData {
   class: {
     subject: number;
     cost: string;
-    class_schedule: Array<{
+    class_schedule?: Array<{
       week_day: string;
       from: string;
       to: string;
+    }>;
+    newClassSchedules?: Array<{
+      from: string;
+      to: string;
+      class_id: string;
+      week_day: string;
     }>;
   };
 }
@@ -71,6 +77,7 @@ interface FormData {
 const Profile: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const [classes, setClasses] = useState<Class[]>([]);
+  const [newClassSchedules, setNewClassSchedules] = useState<number[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedSubjectValue, setSelectedSubjectValue] = useState<
     null | number
@@ -127,9 +134,21 @@ const Profile: React.FC = () => {
       });
 
       setSelectedSubjectValue(option?.value);
+      // setNewClassSchedules([]);
     },
     [classes],
   );
+
+  const handleRemoveClassScheduleFromState = useCallback((id: string) => {
+    setClasses(state =>
+      state.map(classOption => ({
+        ...classOption,
+        class_schedule: classOption.class_schedule.filter(
+          classSchedule => classSchedule.id !== id,
+        ),
+      })),
+    );
+  }, []);
 
   const handleSubmit = useCallback(
     async (data: FormData) => {
@@ -149,34 +168,68 @@ const Profile: React.FC = () => {
         updateUser(userResponse.data);
 
         if (selectedSubjectValue !== null) {
-          const classData = {
+          const classData: any = {
             ...data.class,
             subject: subjectOptions[data.class.subject].label,
-            class_schedule: data.class.class_schedule.map(
+            class_schedule: [],
+          };
+
+          if (data.class.class_schedule) {
+            classData.class_schedule = data.class.class_schedule.map(
               (classSchedule, index) => ({
                 ...classes[selectedSubjectValue].class_schedule[index],
                 ...classSchedule,
                 from: convertHoursToMinutes(classSchedule.from),
                 to: convertHoursToMinutes(classSchedule.to),
               }),
-            ),
-          };
+            );
+          }
+
+          if (data.class.newClassSchedules) {
+            const classSchedules = data.class.newClassSchedules.map(
+              schedule => ({
+                ...schedule,
+                class_id: classes[selectedSubjectValue].id,
+                to: convertHoursToMinutes(schedule.to),
+                from: convertHoursToMinutes(schedule.from),
+              }),
+            );
+
+            classData.class_schedule = [
+              ...classData.class_schedule,
+              ...classSchedules,
+            ];
+          }
 
           const classResponse = await api.put(
             `/classes/${classes[selectedSubjectValue].id}`,
             classData,
           );
 
+          const formatedClassResponse = {
+            ...classResponse.data,
+            cost_formatted: formatPrice(classResponse.data.cost),
+            class_schedule: classResponse.data.class_schedule.map(
+              (classSchedule: any) => ({
+                ...classSchedule,
+                to_formatted: convertMinutsToHours(classSchedule.to),
+                from_formatted: convertMinutsToHours(classSchedule.from),
+              }),
+            ),
+          };
+
           setClasses(
             classes.map(classOption =>
               classOption.id === classes[selectedSubjectValue].id
-                ? classResponse.data
+                ? formatedClassResponse
                 : classOption,
             ),
           );
+          setNewClassSchedules([]);
         }
       } catch (err) {
         // eslint-disable-next-line no-alert
+        console.log(err);
         alert('Não foi possivel salvar o cadastro, tente novamente mais tarde');
       } finally {
         // eslint-disable-next-line no-alert
@@ -249,19 +302,33 @@ const Profile: React.FC = () => {
             <Block>
               <legend>
                 Horários disponívies
-                <button type="button">+ Novo horário</button>
+                <button
+                  onClick={() => {
+                    setNewClassSchedules(state => [...state, state.length]);
+                  }}
+                  type="button"
+                >
+                  + Novo horário
+                </button>
               </legend>
 
               {classes[selectedSubjectValue].class_schedule.map(
                 (schedule, index) => (
                   <Scope path={`class_schedule[${index}]`} key={schedule.id}>
                     <Schedule
-                      formPath={`class_schedule[${index}]`}
+                      removeSchedule={handleRemoveClassScheduleFromState}
                       schedule={schedule}
                     />
                   </Scope>
                 ),
               )}
+
+              {newClassSchedules.length !== 0 &&
+                newClassSchedules.map(value => (
+                  <Scope key={value} path={`newClassSchedules[${value}]`}>
+                    <Schedule />
+                  </Scope>
+                ))}
             </Block>
           )}
         </Scope>
