@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 import { InputContainer } from '../../components/Input/styles';
-import { SelectContainer } from '../../components/Select/styles';
+import { LabelContainer } from '../../components/SimpleSelect/styles';
 
 export const Container = styled.div`
   width: 100vw;
@@ -51,7 +51,7 @@ export const FormSearchTeachers = styled.form`
     }
   }
 
-  ${InputContainer}, ${SelectContainer} {
+  ${InputContainer}, ${LabelContainer} {
     margin-top: 1.4rem;
   }
 
@@ -62,7 +62,7 @@ export const FormSearchTeachers = styled.form`
     position: absolute;
     bottom: -28px;
 
-    ${InputContainer}, ${SelectContainer} {
+    ${InputContainer}, ${LabelContainer} {
       margin-top: 0;
     }
   }

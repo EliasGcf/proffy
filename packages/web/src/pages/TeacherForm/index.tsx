@@ -9,7 +9,7 @@ import api from '../../services/api';
 import PageHeader from '../../components/PageHeader';
 import Input from '../../components/Input';
 import TextArea from '../../components/TextArea';
-import Select from '../../components/Select';
+// import Select from '../../components/Select';
 
 // import './styles.css';
 
@@ -119,7 +119,7 @@ const TeacherForm: React.FC = () => {
           <Block>
             <legend>Sobre a aula</legend>
 
-            <Select
+            {/* <Select
               name="subject"
               label="Matéria"
               value={subject}
@@ -130,7 +130,7 @@ const TeacherForm: React.FC = () => {
                 { value: 'Fisica', label: 'Fisica' },
                 { value: 'Portugues', label: 'Portugues' },
               ]}
-            />
+            /> */}
 
             <Input
               name="cost"
@@ -150,7 +150,7 @@ const TeacherForm: React.FC = () => {
 
             {scheduleItems.map((scheduleItem, index) => (
               <div key={scheduleItem.week_day} className="schedule-item">
-                <Select
+                {/* <Select
                   name="week-day"
                   label="Dia da Semana"
                   value={scheduleItem.week_day}
@@ -166,7 +166,7 @@ const TeacherForm: React.FC = () => {
                     { value: '5', label: 'Sexta-Feira' },
                     { value: '6', label: 'Sabado' },
                   ]}
-                />
+                /> */}
 
                 <Input
                   name="from"

@@ -43,7 +43,7 @@ const Landing: React.FC = () => {
     <Container>
       <TopContent>
         <Header>
-          <Link to="/">
+          <Link to="/profile">
             <img
               src={
                 user.avatar ||
@@ -51,7 +51,7 @@ const Landing: React.FC = () => {
               }
               alt="Profile"
             />
-            <span>{user.name}</span>
+            <span>{user.first_name}</span>
           </Link>
 
           <button onClick={handleSignOut} type="button">

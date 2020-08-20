@@ -30,7 +30,7 @@ export class Class {
   user: User;
 
   @OneToMany(() => ClassSchedule, classSchedule => classSchedule.class, {
-    cascade: ['insert'],
+    cascade: ['insert', 'update'],
   })
   class_schedule: ClassSchedule[];
 
