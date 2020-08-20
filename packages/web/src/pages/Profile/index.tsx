@@ -1,3 +1,4 @@
+// This page needs to be refactored
 import React, {
   useCallback,
   useRef,
@@ -228,8 +229,8 @@ const Profile: React.FC = () => {
           setNewClassSchedules([]);
         }
       } catch (err) {
-        // eslint-disable-next-line no-alert
         console.log(err);
+        // eslint-disable-next-line no-alert
         alert('Não foi possivel salvar o cadastro, tente novamente mais tarde');
       } finally {
         // eslint-disable-next-line no-alert
