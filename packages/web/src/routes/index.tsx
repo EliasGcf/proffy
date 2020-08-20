@@ -4,7 +4,7 @@ import { Switch } from 'react-router-dom';
 import SignIn from '../pages/SignIn';
 import Landing from '../pages/Landing';
 import TeacherList from '../pages/TeacherList';
-import TeacherForm from '../pages/TeacherForm';
+import ClassForm from '../pages/ClassForm';
 import SignUp from '../pages/SignUp';
 import Profile from '../pages/Profile';
 
@@ -18,7 +18,7 @@ const Routes: React.FC = () => {
       <Route path="/landing" isPrivate component={Landing} />
       <Route path="/profile" isPrivate component={Profile} />
       <Route path="/study" isPrivate component={TeacherList} />
-      <Route path="/give-classes" isPrivate component={TeacherForm} />
+      <Route path="/give-classes" isPrivate component={ClassForm} />
     </Switch>
   );
 };

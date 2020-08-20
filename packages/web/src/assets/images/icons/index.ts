@@ -6,3 +6,4 @@ export { ReactComponent as SignOutIcon } from './signout.svg';
 export { ReactComponent as StudyIcon } from './study.svg';
 export { ReactComponent as GiveClassesIcon } from './give-classes.svg';
 export { ReactComponent as WarningIcon } from './warning.svg';
+export { ReactComponent as RocketIcon } from './rocket.svg';
