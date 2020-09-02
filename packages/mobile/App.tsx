@@ -1,7 +1,7 @@
 /* eslint-disable react/style-prop-object */
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { AppLoading } from 'expo';
+import SplashScreen from 'react-native-splash-screen';
 import { ThemeProvider } from 'styled-components';
 import {
   useFonts,
@@ -25,8 +25,10 @@ const App: React.FC = () => {
   });
 
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return null;
   }
+
+  SplashScreen.hide();
 
   return (
     <ThemeProvider theme={lightTheme}>

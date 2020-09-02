@@ -26,9 +26,9 @@ const Landing: React.FC = () => {
   const [totalConnections, setTotalConnections] = useState(0);
 
   useEffect(() => {
-    api.get('connections').then(response => {
-      setTotalConnections(response.data.total);
-    });
+    // api.get('connections').then(response => {
+    //   setTotalConnections(response.data.total);
+    // });
   }, []);
 
   const handleNavigateToGiveClassesPage = useCallback(() => {
