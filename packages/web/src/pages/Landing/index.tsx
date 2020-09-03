@@ -83,12 +83,12 @@ const Landing: React.FC = () => {
         </InfoContainer>
 
         <ButtonsContainer>
-          <Button onClick={() => push('/give-classes')}>
+          <Button>
             <StudyIcon />
             Estudar
           </Button>
 
-          <Button>
+          <Button onClick={() => push('/give-classes')}>
             <GiveClassesIcon />
             Dar aulas
           </Button>
