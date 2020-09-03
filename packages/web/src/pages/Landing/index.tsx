@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import {
   SignOutIcon,
@@ -28,6 +28,7 @@ const Landing: React.FC = () => {
   const [totalConnections, setTotalConnections] = useState(0);
 
   const { signOut, user } = useAuth();
+  const { push } = useHistory();
 
   const handleSignOut = useCallback(() => {
     signOut();
@@ -87,7 +88,7 @@ const Landing: React.FC = () => {
             Estudar
           </Button>
 
-          <Button>
+          <Button onClick={() => push('/give-classes')}>
             <GiveClassesIcon />
             Dar aulas
           </Button>
