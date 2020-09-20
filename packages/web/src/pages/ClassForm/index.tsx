@@ -23,6 +23,7 @@ import {
   ProfileGroup,
 } from './styles';
 import Schedule from './components/Schedule';
+import Success from './components/Success';
 
 interface FormData {
   user: {
@@ -43,6 +44,7 @@ interface FormData {
 const ClassForm: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const [newSchedules, setNewSchedules] = useState<number[]>([]);
+  const [showSuccess, setShowSuccess] = useState(false);
   const [subjectOptions, setSubjectOptions] = useState([
     { value: 'Biologia', label: 'Biologia' },
     { value: 'Física', label: 'Física' },
@@ -86,15 +88,18 @@ const ClassForm: React.FC = () => {
         });
 
         // eslint-disable-next-line no-alert
-        alert('Sucesso.');
-        push('/');
+        setShowSuccess(true);
       } catch (err) {
         // eslint-disable-next-line no-alert
         alert('Não foi possivel criar aula, tente novamente mais tarde.');
       }
     },
-    [AuthUser, push, updateUser],
+    [AuthUser, updateUser],
   );
+
+  if (showSuccess) {
+    return <Success />;
+  }
 
   return (
     <Container>
